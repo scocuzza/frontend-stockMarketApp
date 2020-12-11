@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Statistic } from 'semantic-ui-react'
 import axios from 'axios'
+import StockPriceChart from './StockPriceChart'
 
 class Indexheading extends Component {
     
@@ -14,24 +15,25 @@ class Indexheading extends Component {
     }
     componentDidMount() {
         this.getIndiceData()
-        //setInterval(this.getIndiceData, 10000)
     }
     render() {
         return(
-        <Statistic.Group widths='three'>
+        <Statistic.Group widths='three' >
           <Statistic>
             <Statistic.Value>{this.state.dow}</Statistic.Value>
             <Statistic.Label>Dow Jones Industrial Average</Statistic.Label>
+            <StockPriceChart/>
           </Statistic>
-      
           <Statistic>
             <Statistic.Value>{this.state.nas}</Statistic.Value>
             <Statistic.Label>Nasdaq Composite</Statistic.Label>
+            <StockPriceChart/>
           </Statistic>
       
           <Statistic>
             <Statistic.Value>{this.state.sp}</Statistic.Value>
             <Statistic.Label>S&P 500 Index</Statistic.Label>
+            <StockPriceChart/>
           </Statistic>
       
         </Statistic.Group>
@@ -45,7 +47,6 @@ class Indexheading extends Component {
                 symbol: '$DJI,$COMPX,$SPX.X'
             }
         }).then(response => {
-            console.log(response);
             this.setState({
                 dow: Math.round(response.data.$DJI.lastPrice,0),
                 nas: Math.round(response.data.$COMPX.lastPrice,0),
@@ -54,6 +55,9 @@ class Indexheading extends Component {
         })
         .catch( e => {console.log((e));})
     }
+    
+
+
 }
 
 
