@@ -8,28 +8,33 @@ class StockPriceChart extends Component {
         this.state = {
             options: {
               chart: {
-                id: "basic-bar"
+                type: 'area',
+              },
+              dataLabels: {
+                  enabled: false
               },
               xaxis: {
                 type: 'datetime',
+                categories: []
               }
             },
             series: [
               {
-                name: "series-1",
+                name: "Index Price",
               }
             ]
           };
         }
         componentDidMount() {
-            this.getIndiceMonthData()
+            this.getIndiceData()
         }
-        getIndiceMonthData = () => {
+        getIndiceData = () => {
+            let ticker = this.props.ticker
             axios({
-                url: 'https://api.tdameritrade.com/v1/marketdata/$DJI/pricehistory',
+                url: `https://api.tdameritrade.com/v1/marketdata/${ticker}/pricehistory`,
                 params: {
                     apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
-                    periodType: 'month',
+                    periodType: 'ytd',
                     period: '1',
                     frequencyType: 'daily',
                     frequency: '1'
@@ -44,8 +49,10 @@ class StockPriceChart extends Component {
                 this.setState({
                     options: {
                         chart: {
-                          id: "basic-bar"
+                          id: "basic-bar",
+                          type: 'area'
                         },
+
                         xaxis: {
                           type: 'datetime',
                           categories: timedata
@@ -53,7 +60,7 @@ class StockPriceChart extends Component {
                       },
                       series: [
                         {
-                          name: "series-1",
+                          name: response.data.symbol,
                           data: pricedata
                         }
                       ]
@@ -66,8 +73,8 @@ class StockPriceChart extends Component {
                 <Chart className="chart"
                   options={this.state.options}
                   series={this.state.series}
-                  type="line"
-                  width="80%"
+                  width="60%"
+                  type='area'
                 />
         );
       }

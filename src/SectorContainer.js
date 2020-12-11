@@ -11,7 +11,7 @@ class SectorContainer extends Component {
 
     this.setState({ activeIndex: newIndex })
   }
-
+  
   render() {
     const { activeIndex } = this.state
 

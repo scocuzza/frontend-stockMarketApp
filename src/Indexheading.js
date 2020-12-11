@@ -21,19 +21,19 @@ class Indexheading extends Component {
         <Statistic.Group widths='three' >
           <Statistic>
             <Statistic.Value>{this.state.dow}</Statistic.Value>
-            <Statistic.Label>Dow Jones Industrial Average</Statistic.Label>
-            <StockPriceChart/>
+            <Statistic.Label>Dow Jones Industrial Average  </Statistic.Label>
+            <StockPriceChart ticker="$DJI"/>
           </Statistic>
           <Statistic>
             <Statistic.Value>{this.state.nas}</Statistic.Value>
             <Statistic.Label>Nasdaq Composite</Statistic.Label>
-            <StockPriceChart/>
+            <StockPriceChart ticker="$COMPX"/>
           </Statistic>
       
           <Statistic>
             <Statistic.Value>{this.state.sp}</Statistic.Value>
             <Statistic.Label>S&P 500 Index</Statistic.Label>
-            <StockPriceChart/>
+            <StockPriceChart ticker="$SPX.X"/>
           </Statistic>
       
         </Statistic.Group>
