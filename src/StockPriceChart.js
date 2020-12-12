@@ -44,7 +44,7 @@ class StockPriceChart extends Component {
                     return element.datetime
                 });
                 const pricedata = response.data.candles.map(element => {
-                    return element.close
+                    return Math.round(element.close, 0)
                 })
                 this.setState({
                     options: {

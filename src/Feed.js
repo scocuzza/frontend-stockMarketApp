@@ -3,100 +3,49 @@ import axios from 'axios'
 import { Feed, Icon } from 'semantic-ui-react'
 
 class WatchlistFeed extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            feedArray: []
+        }
+    }
     getFeedData = () => {
-        axios.get('http://localhost:8000/logs').then(response => {
-            console.log(response);
+        axios.get('http://localhost:8000/logs/').then(response => {
+            console.log(response.data.data);
+            this.setState({
+                feedArray: response.data.data
+            })
         })
         .catch( e => {console.log((e));})
     }
     componentDidMount() {
         this.getFeedData()
+        setInterval(() => {
+            this.getFeedData()
+          }, 5000);
     }
     render(){
+        let feedItems = ''
+        feedItems = this.state.feedArray.map( (feedItem, index) => {
+            if (index < 9) {
+                return(
+                    <Feed.Event>
+                    <Feed.Content>
+                    <Feed.Summary>
+                        <Icon name ='user outline'></Icon> <Feed.User> {feedItem.username}</Feed.User> {feedItem.activity} 
+                        <Feed.Date>{feedItem.created_at}</Feed.Date>
+                    </Feed.Summary>
+                    <Feed.Meta>
+                    </Feed.Meta>
+                    </Feed.Content>
+                </Feed.Event>)
+            }
+        })
         return(
-        <Feed>
-        <Feed.Event>
-            <Feed.Label>
-            <img src='/images/avatar/small/elliot.jpg' alt=''/>
-            </Feed.Label>
-            <Feed.Content>
-            <Feed.Summary>
-                <Icon name ='user outline'></Icon> A new user has been created ! <Feed.User>Elliot Fu</Feed.User>
-                <Feed.Date>1 Hour Ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Meta>
-                <Feed.Like>
-                <Icon name='like' />4 Likes
-                </Feed.Like>
-            </Feed.Meta>
-            </Feed.Content>
-        </Feed.Event>
-        <Feed.Event>
-            <Feed.Label>
-            <img src='/images/avatar/small/elliot.jpg' alt=''/>
-            </Feed.Label>
-            <Feed.Content>
-            <Feed.Summary>
-                <Icon name ='unordered list'></Icon><Feed.User>Elliot Fu</Feed.User> has created a new <Feed.User>watchlist</Feed.User> 
-                <Feed.Date>1 Hour Ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Meta>
-                <Feed.Like>
-                <Icon name='like' />4 Likes
-                </Feed.Like>
-            </Feed.Meta>
-            </Feed.Content>
-        </Feed.Event>
-        <Feed.Event>
-            <Feed.Label>
-            <img src='/images/avatar/small/elliot.jpg' alt=''/>
-            </Feed.Label>
-            <Feed.Content>
-            <Feed.Summary>
-                <Icon name ='user outline'></Icon>User <Feed.User>Elliot Fu</Feed.User> has logged in
-                <Feed.Date>1 Hour Ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Meta>
-                <Feed.Like>
-                <Icon name='like' />4 Likes
-                </Feed.Like>
-            </Feed.Meta>
-            </Feed.Content>
-        </Feed.Event>
-        <Feed.Event>
-            <Feed.Label>
-            <img src='/images/avatar/small/elliot.jpg' alt=''/>
-            </Feed.Label>
-            <Feed.Content>
-            <Feed.Summary>
-                <Icon name ='edit outline'></Icon><Feed.User>Elliot Fu</Feed.User> has edited their <Feed.User>watchlist</Feed.User> 
-                <Feed.Date>1 Hour Ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Meta>
-                <Feed.Like>
-                <Icon name='like' />4 Likes
-                </Feed.Like>
-            </Feed.Meta>
-            </Feed.Content>
-        </Feed.Event>
-        <Feed.Event>
-            <Feed.Label>
-            <img src='/images/avatar/small/elliot.jpg' alt=''/>
-            </Feed.Label>
-            <Feed.Content>
-            <Feed.Summary>
-                <Icon name ='user outline'></Icon>User <Feed.User>Elliot Fu</Feed.User> has logged out
-                <Feed.Date>1 Hour Ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Meta>
-                <Feed.Like>
-                <Icon name='like' />4 Likes
-                </Feed.Like>
-            </Feed.Meta>
-            </Feed.Content>
-        </Feed.Event>
-        </Feed>
-       )
+            <Feed>
+                {feedItems}
+            </Feed>
+        )
     }
 }
 
