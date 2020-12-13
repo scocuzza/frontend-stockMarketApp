@@ -10,7 +10,8 @@ class WatchlistFeed extends Component {
         }
     }
     getFeedData = () => {
-        axios.get('http://localhost:8000/logs/').then(response => {
+        console.log(process.env.REACT_APP_FLASK_API_URL);
+        axios.get(process.env.REACT_APP_FLASK_API_URL + '/logs/').then(response => {
             console.log(response.data.data);
             this.setState({
                 feedArray: response.data.data

@@ -6,7 +6,8 @@ class SectorItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            netChange: 0
+            netChange: 0,
+            description: ''
         }
     }
   state = { activeIndex: 0 }
@@ -32,8 +33,8 @@ class SectorItem extends Component {
         let ticker = this.props.ticker
         console.log(response.data[ticker].netChange);
         this.setState({
-            netChange: (response.data[ticker].lastPrice - response.data[ticker].openPrice).toFixed(2)
-
+            netChange: (response.data[ticker].lastPrice - response.data[ticker].openPrice).toFixed(2),
+            description: response.data[ticker].description
         })
     })
     .catch( e => {console.log((e));})
@@ -55,7 +56,7 @@ class SectorItem extends Component {
         
         <Accordion.Content active={activeIndex === this.props.index}>
           <p>
-            {this.props.ticker}
+            {this.state.description}
           </p>
         </Accordion.Content>
         </>
