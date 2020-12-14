@@ -21,6 +21,9 @@ class SectorItem extends Component {
   }
   componentDidMount() {
     this.getSectorData()
+  //   setInterval( ()=> {
+  //     this.getSectorData()
+  // },10000)
   }
   getSectorData = () => {
     axios({

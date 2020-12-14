@@ -1,3 +1,7 @@
 .apexcharts-canvas {
   margin: auto;
 }
+.FeedContainer {
+  overflow: auto;
+  max-height: 200;
+}

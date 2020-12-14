@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Feed, Icon } from 'semantic-ui-react'
+import { Feed, Icon, Segment } from 'semantic-ui-react'
 
 class WatchlistFeed extends Component {
     constructor(props) {
@@ -21,14 +21,13 @@ class WatchlistFeed extends Component {
     }
     componentDidMount() {
         this.getFeedData()
-        setInterval(() => {
-            this.getFeedData()
-          }, 5000);
+        // setInterval(() => {
+        //     this.getFeedData()
+        //   }, 5000);
     }
     render(){
         let feedItems = ''
         feedItems = this.state.feedArray.map( (feedItem, index) => {
-            if (index < 9) {
                 return(
                     <Feed.Event>
                     <Feed.Content>
@@ -40,12 +39,15 @@ class WatchlistFeed extends Component {
                     </Feed.Meta>
                     </Feed.Content>
                 </Feed.Event>)
-            }
         })
         return(
-            <Feed>
-                {feedItems}
-            </Feed>
+            <Segment style={{overflow: 'auto', maxHeight: 230 }}>
+                <Feed>
+                    <h3>Activity Feed</h3>
+                    {feedItems}
+                </Feed>
+            </Segment>
+            
         )
     }
 }

@@ -15,6 +15,9 @@ class Indexheading extends Component {
     }
     componentDidMount() {
         this.getIndiceData()
+        // setInterval( ()=> {
+        //     this.getIndiceData()
+        // },10000)
     }
     render() {
         return(
@@ -47,6 +50,7 @@ class Indexheading extends Component {
                 symbol: '$DJI,$COMPX,$SPX.X'
             }
         }).then(response => {
+            console.log(response.data);
             this.setState({
                 dow: Math.round(response.data.$DJI.lastPrice,0),
                 nas: Math.round(response.data.$COMPX.lastPrice,0),
