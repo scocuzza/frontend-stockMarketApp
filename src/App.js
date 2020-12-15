@@ -19,6 +19,7 @@ class App extends Component {
         password: '',
     },
     currentUser: {},
+    userWatchlists: []
   }
   }
     handleNewUserChange = (e) => {
@@ -66,7 +67,6 @@ class App extends Component {
         );
   
         console.log(loginResponse, ' Login Response');
-        // window.localStorage.setItem('email',loginResponse.data.data.email)
         this.setState({
           showNewUserModal: false,
           showLoginUserModal: false,
@@ -77,6 +77,7 @@ class App extends Component {
           },
           currentUser: loginResponse.data.data,
         });
+        this.getUserWatchlists()
       } catch (err) {
         console.log(err);
       }
@@ -95,9 +96,15 @@ class App extends Component {
     };
     logout = async (e) => {
       e.preventDefault();
+      console.log(this.state.currentUser.token);
       try {
         await axios.post(
-          'http://localhost:8000/user/logout'
+          process.env.REACT_APP_FLASK_API_URL + '/user/logout', this.state.currentUser.user,{
+            headers: {
+            'Authorization': 'Bearer ' + this.state.currentUser.token
+          }
+        },
+
         );
         this.setState({
           currentUser: {}
@@ -106,6 +113,23 @@ class App extends Component {
         console.log(err);
       }
     }
+    getUserWatchlists = () => {
+      let isLoggedIn = Object.keys(this.state.currentUser).length != 0
+      if(isLoggedIn) {
+          axios.get(process.env.REACT_APP_FLASK_API_URL + '/watchlists/' + this.state.currentUser.user.id)
+          .then( response => {
+              console.log(response.data);
+              this.setState({
+                  userWatchlists: response.data.data
+              })
+          })
+      }
+  }
+  componentDidMount() {
+    setInterval( ()=> {
+      //this.getUserWatchlists()
+    },5000)
+  }
   render(){
     return(
     <div>
@@ -119,7 +143,8 @@ class App extends Component {
               closeAndLogin={this.closeAndLogin}
               openNewUserModal={this.openNewUserModal}
               openLoginUserModal={this.openLoginUserModal}
-              logout={this.logout}/>
+              logout={this.logout}
+              />
       <Indexheading />
       <GridContainer showNewUserModal={this.state.showNewUserModal}
               showLoginUserModal={this.state.showLoginUserModal}
@@ -131,7 +156,9 @@ class App extends Component {
               closeAndLogin={this.closeAndLogin}
               openNewUserModal={this.openNewUserModal}
               openLoginUserModal={this.openLoginUserModal}
-              logout={this.logout}/>
+              logout={this.logout}
+              getUserWatchlists={this.getUserWatchlists}
+              userWatchlists={this.state.userWatchlists}/>
        <RegisterUserModal
             handleNewUserChange={this.handleNewUserChange}
             open={this.state.showNewUserModal}

@@ -48,7 +48,7 @@ class Navbar extends Component {
         {isLoggedIn ? 
           <Menu.Item
             name='welcome'
-          >Welcome {this.props.currentUser.username}</Menu.Item> : null
+          >Welcome {this.props.currentUser.user.username}</Menu.Item> : null
          }
          {isLoggedIn ? 
           <Menu.Item
