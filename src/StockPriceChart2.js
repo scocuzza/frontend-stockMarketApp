@@ -2,36 +2,35 @@ import React, { Component } from 'react';
 import Chart from "react-apexcharts"
 import axios from 'axios'
 
-class StockPriceChart extends Component {
+class StockPriceChart2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
             options: {
-              chart: {
-                type: 'area',
-              },
-              dataLabels: {
-                  enabled: false
-              },
-              xaxis: {
+                chart: {
+                id: "basic-bar",
+                type: 'area'
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
                 type: 'datetime',
                 categories: []
-              }
+                }
             },
             series: [
-              {
+                {
                 name: "Index Price",
-              }
+                data: []
+                }
             ]
-          };
-        }
-        componentDidMount() {
-            this.getIndiceData()
+            };
         }
         getIndiceData = () => {
-            let ticker = this.props.ticker
+            console.log('getting history data');
             axios({
-                url: `https://api.tdameritrade.com/v1/marketdata/${ticker.toUpperCase()}/pricehistory`,
+                url: `https://api.tdameritrade.com/v1/marketdata/${this.props.currentStock.toUpperCase()}/pricehistory`,
                 params: {
                     apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
                     periodType: 'ytd',
@@ -49,24 +48,29 @@ class StockPriceChart extends Component {
                 this.setState({
                     options: {
                         chart: {
-                          id: "basic-bar",
-                          type: 'area'
+                            id: "basic-bar",
+                            type: 'area'
                         },
-
+                        dataLabels: {
+                            enabled: false
+                        },
                         xaxis: {
-                          type: 'datetime',
-                          categories: timedata
+                            type: 'datetime',
+                            categories: timedata
                         }
-                      },
-                      series: [
+                        },
+                        series: [
                         {
-                          name: response.data.symbol,
-                          data: pricedata
+                            name: "Index Price",
+                            data: pricedata
                         }
-                      ]
+                        ]
                     })
-                })
+            })
             .catch( e => {console.log((e));})
+        }
+        componentDidMount = () => {
+                this.getIndiceData()
         }
       render() {
         return (
@@ -80,4 +84,4 @@ class StockPriceChart extends Component {
       }
 }
 
-export default StockPriceChart
+export default StockPriceChart2

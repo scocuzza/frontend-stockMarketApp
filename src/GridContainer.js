@@ -9,7 +9,28 @@ class GridContainer extends Component{
       <Grid columns={2} divided>
       <Grid.Row>
         <Grid.Column>
-          <SectorContainer />
+          <SectorContainer 
+           showPoints={this.props.showPoints}
+           techChange={this.props.techChange}
+           healthChange={this.props.healthChange} 
+           financialChange={this.props.financialChange}
+           communicationChange={this.props.communicationChange}
+           industrialChange={this.props.industrialChange}
+           energyChange={this.props.energyChange}
+           utilitiesChange={this.props.utilitiesChange}
+           realEstateChange={this.props.realEstateChange}
+           materialsChange={this.props.materialsChange}
+           preciousMetalsChange={this.props.preciousMetalsChange}
+           techLast={this.props.techLast}
+           healthLast={this.props.healthLast} 
+           financialsLast={this.props.financialsLast}
+           communicationLast={this.props.communicationLast}
+           industrialLast={this.props.industrialLast}
+           energyLast={this.props.energyLast}
+           utilitiesLast={this.props.utilitiesLast}
+           realEstateLast={this.props.realEstateLast}
+           materialsLast={this.props.materialsLast}
+           preciousMetalsLast={this.props.preciousMetalsLast}/>
         </Grid.Column>
         <Grid.Column>
           <FeedAndWatchlistContainer 
@@ -24,7 +45,9 @@ class GridContainer extends Component{
               openNewUserModal={this.props.openNewUserModal}
               openLoginUserModal={this.props.openLoginUserModal}
               logout={this.props.logout}
-              userWatchlists={this.props.userWatchlists}/>
+              userWatchlists={this.props.userWatchlists}
+              openWatchlistModal={this.props.openWatchlistModal}
+              newWatchlist={this.props.newWatchlist}/>
         </Grid.Column>
       </Grid.Row>
       </Grid>

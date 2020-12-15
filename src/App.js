@@ -1,11 +1,9 @@
 import './App.css';
-import Navbar from './Navbar';
-import Indexheading from './Indexheading'
-import GridContainer from './GridContainer'
 import axios from 'axios'
 import { Component } from 'react';
-import RegisterUserModal from './RegisterUserModal'
-import LoginUserModal from './LoginUserModal'
+import { BrowserRouter as BrowserRouter, Route } from 'react-router-dom'
+import Home from './Home'
+import StockView from './StockView';
 
 class App extends Component {
   constructor(props) {
@@ -13,17 +11,31 @@ class App extends Component {
     this.state = {
       showNewUserModal: false,
       showLoginUserModal: false,
+      showNewWatchlistModal: false,
       newUser: {
         username: '',
         email: '',
         password: ''
 
     },
+    newWatchlist: {
+      watchlist_id: '',
+      watchlistname: ''
+    },
     currentUser: {},
     userWatchlists: [],
-    showPoints: true,
-    sectorTickers: ['VGT', 'VHT', 'VFH', 'VOX', 'VIS', 'VDE', 'VPU', 'VNQ', 'VAW', 'GLD']
+    currentStock: '',
+    currentStockData: [],
+    showPoints: true
   }
+  }
+  handleNewWatchlistChange = (e) => {
+    this.setState({
+      newWatchlist: {
+        watchlist_id: this.state.currentUser.user.id,
+        watchlistname: e.currentTarget.value
+      }
+    })
   }
   handleNewUserChange = (e) => {
     this.setState({
@@ -36,9 +48,30 @@ class App extends Component {
   closeModal = () => {
     this.setState({
       showNewUserModal: false,
-      showLoginUserModal: false
+      showLoginUserModal: false,
+      showNewWatchlistModal: false
     });
   };
+  createWatchlist = async (e) => {
+    e.preventDefault();
+    try {
+      const watchlistResponse = await axios.post(
+        process.env.REACT_APP_FLASK_API_URL + '/watchlists/create',
+        this.state.newWatchlist
+      )
+      console.log(watchlistResponse, ' new Watchlist');
+      this.setState({
+        showNewWatchlistModal: false,
+        newWatchlist: {
+          watchlist_id: '',
+          watchlistname: ''
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    }
   closeAndCreate = async (e) => {
     e.preventDefault();
     try {
@@ -91,6 +124,12 @@ class App extends Component {
       showNewUserModal: true,
     });
   };
+  openWatchlistModal = (e) => {
+    e.stopPropagation();
+    this.setState({
+      showNewWatchlistModal: true,
+    });
+  };
   openLoginUserModal = (e) => {
     e.stopPropagation();
     this.setState({
@@ -134,13 +173,33 @@ class App extends Component {
           dowChange: ((this.state.dow.netChange / this.state.dow.openPrice) * 100).toFixed(2),
           spChange: ((this.state.sp.netChange / this.state.sp.openPrice) * 100).toFixed(2),
           nasChange: ((this.state.nas.netChange / this.state.nas.openPrice) * 100).toFixed(2),
+          techChange: ((this.state.tech.netChange / this.state.tech.openPrice) * 100).toFixed(2),
+          healthChange: ((this.state.health.netChange / this.state.health.openPrice) * 100).toFixed(2),
+          financialChange: ((this.state.financial.netChange / this.state.financial.openPrice) * 100).toFixed(2),
+          communicationChange: ((this.state.communication.netChange / this.state.communication.openPrice) * 100).toFixed(2),
+          industrialChange: ((this.state.industrial.netChange / this.state.industrial.openPrice) * 100).toFixed(2),
+          energyChange: ((this.state.energy.netChange / this.state.energy.openPrice) * 100).toFixed(2),
+          utilitiesChange: ((this.state.utilities.netChange / this.state.utilities.openPrice) * 100).toFixed(2),
+          realEstateChange: ((this.state.realEstate.netChange / this.state.realEstate.openPrice) * 100).toFixed(2),
+          materialsChange: ((this.state.materials.netChange / this.state.materials.openPrice) * 100).toFixed(2),
+          preciousMetalsChange: ((this.state.preciousMetals.netChange / this.state.preciousMetals.openPrice) * 100).toFixed(2),
           showPoints: false
       })
   } else {
       this.setState({
-          dowChange: this.state.nas.netChange,
-          nasChange: this.state.nas.netChange,
+          dowChange: (this.state.dow.netChange).toFixed(2),
+          nasChange: (this.state.nas.netChange).toFixed(2),
           spChange: this.state.sp.netChange,
+          techChange: this.state.tech.netChange,
+          healthChange: this.state.health.netChange,
+          financialChange: this.state.financial.netChange,
+          communicationChange: this.state.communication.netChange,
+          industrialChange: this.state.industrial.netChange,
+          energyChange: this.state.energy.netChange,
+          utilitiesChange: this.state.utilities.netChange,
+          realEstateChange: this.state.realEstate.netChange,
+          materialsChange: this.state.materials.netChange,
+          preciousMetalsChange: this.state.preciousMetals.netChange,
           showPoints: true
       })
   }
@@ -181,85 +240,107 @@ class App extends Component {
             realEstateLast: (response.data.VNQ.lastPrice).toFixed(0),
             materialsLast: (response.data.VAW.lastPrice).toFixed(0),
             preciousMetalsLast: (response.data.GLD.lastPrice).toFixed(0),
-
-            dowChange: response.data.$DJI.netChange,
-            nasChange: response.data.$COMPX.netChange,
-            spChange: response.data['$SPX.X'].netChange,
-            techChange: response.data.VGT.netChange,
-            healthChange: response.data.VHT.netChange,
-            financialChange: response.data.VFH.netChange,
-            communicationChange: response.data.VOX.netChange,
-            industrialChange: response.data.VIS.netChange,
-            energyChange: response.data.VDE.netChange,
-            utilitiesChange: response.data.VPU.netChange,
-            realEstateChange: response.data.VNQ.netChange,
-            materialsChange: response.data.VAW.netChange,
-            preciousMetalsChange: response.data.GLD.netChange,
         })
+        if(this.state.showPoints) {
+          this.setState({
+            dowChange: (response.data.$DJI.netChange).toFixed(2),
+            nasChange: (response.data.$COMPX.netChange).toFixed(2),
+            spChange: (response.data['$SPX.X'].netChange).toFixed(2),
+            techChange: (response.data.VGT.netChange).toFixed(2),
+            healthChange: (response.data.VHT.netChange).toFixed(2),
+            financialChange: (response.data.VFH.netChange).toFixed(2),
+            communicationChange: (response.data.VOX.netChange).toFixed(2),
+            industrialChange: (response.data.VIS.netChange).toFixed(2),
+            energyChange: (response.data.VDE.netChange).toFixed(2),
+            utilitiesChange: (response.data.VPU.netChange).toFixed(2),
+            realEstateChange: (response.data.VNQ.netChange).toFixed(2),
+            materialsChange: (response.data.VAW.netChange).toFixed(2),
+            preciousMetalsChange: (response.data.GLD.netChange).toFixed(2)
+          })
+        } else {
+          this.setState({
+            dowChange: ((response.data.$DJI.netChange / response.data.$DJI.openPrice) * 100).toFixed(2),
+            spChange: ((response.data['$SPX.X'].netChange / response.data['$SPX.X'].openPrice) * 100).toFixed(2),
+            nasChange: ((response.data.$COMPX.netChange / response.data.$COMPX.openPrice) * 100).toFixed(2),
+            techChange: ((response.data.VGT.netChange / response.data.VGT.openPrice) * 100).toFixed(2),
+            healthChange: ((response.data.VHT.netChange / response.data.VHT.openPrice) * 100).toFixed(2),
+            financialChange: ((response.data.VFH.netChange / response.data.VFH.openPrice) * 100).toFixed(2),
+            communicationChange: ((response.data.VOX.netChange / response.data.VOX.openPrice) * 100).toFixed(2),
+            industrialChange: ((response.data.VIS.netChange / response.data.VIS.openPrice) * 100).toFixed(2),
+            energyChange: ((response.data.VDE.netChange / response.data.VDE.openPrice) * 100).toFixed(2),
+            utilitiesChange: ((response.data.VPU.netChange / response.data.VPU.openPrice) * 100).toFixed(2),
+            realEstateChange: ((response.data.VNQ.netChange / response.data.VNQ.openPrice) * 100).toFixed(2),
+            materialsChange: ((response.data.VAW.netChange / response.data.VAW.openPrice) * 100).toFixed(2),
+            preciousMetalsChange: ((response.data.GLD.netChange / response.data.GLD.openPrice) * 100).toFixed(2),
+          })
+        }
     })
     .catch( e => {console.log((e));})
   }
+  handleStockSearch = (e) =>{ 
+    this.setState({
+      currentStock: e.currentTarget.value
+    })
+  }
+  
   componentDidMount() {
     this.getIndiceData()
     setInterval( ()=> {
-      //this.getUserWatchlists()
+      this.getUserWatchlists()
+      this.getIndiceData()
     },5000)
   }
   render(){
     return(
     <div>
-      <Navbar showNewUserModal={this.state.showNewUserModal}
-              showLoginUserModal={this.state.showLoginUserModal}
-              newUser={this.state.newUser}
-              currentUser={this.state.currentUser}
-              handleNewUserChange={this.handleNewUserChange}
-              closeModal={this.closeModal}
-              closeAndCreate={this.closeAndCreate}
-              closeAndLogin={this.closeAndLogin}
-              openNewUserModal={this.openNewUserModal}
-              openLoginUserModal={this.openLoginUserModal}
-              logout={this.logout}
-              toggleStat={this.toggleStat}
-              showPoints={this.state.showPoints}/>
-      <Indexheading showPoints={this.state.showPoints}
-                    dowLast={this.state.dowLast}
-                    spLast={this.state.spLast}
-                    nasLast={this.state.nasLast}
-                    dowChange={this.state.dowChange}
-                    spChange={this.state.spChange}
-                    nasChange={this.state.nasChange}
-                    />
-      <GridContainer showNewUserModal={this.state.showNewUserModal}
-              showLoginUserModal={this.state.showLoginUserModal}
-              newUser={this.state.newUser}
-              currentUser={this.state.currentUser}
-              handleNewUserChange={this.handleNewUserChange}
-              closeModal={this.closeModal}
-              closeAndCreate={this.closeAndCreate}
-              closeAndLogin={this.closeAndLogin}
-              openNewUserModal={this.openNewUserModal}
-              openLoginUserModal={this.openLoginUserModal}
-              logout={this.logout}
-              getUserWatchlists={this.getUserWatchlists}
-              userWatchlists={this.state.userWatchlists}
-              />
-       <RegisterUserModal
-            handleNewUserChange={this.handleNewUserChange}
-            open={this.state.showNewUserModal}
-            closeAndCreate={this.closeAndCreate}
-            newUser={this.state.newUser}
-            closeModal={this.closeModal}
-          />
-        <LoginUserModal
-            handleNewUserChange={this.handleNewUserChange}
-            open={this.state.showLoginUserModal}
-            closeAndLogin={this.closeAndLogin}
-            newUser={this.state.newUser}
-            closeModal={this.closeModal}
-          />
+      <BrowserRouter>
+        <Route exact path="/" render={(props)=> {
+          return <Home  showNewUserModal={this.state.showNewUserModal}
+                        showLoginUserModal={this.state.showLoginUserModal}
+                        newUser={this.state.newUser}
+                        currentUser={this.state.currentUser}
+                        handleNewUserChange={this.handleNewUserChange}
+                        handleStockSearch={this.handleStockSearch}
+                        closeModal={this.closeModal}
+                        closeAndCreate={this.closeAndCreate}
+                        closeAndLogin={this.closeAndLogin}
+                        openNewUserModal={this.openNewUserModal}
+                        openLoginUserModal={this.openLoginUserModal}
+                        openWatchlistModal={this.openWatchlistModal}
+                        logout={this.logout}
+                        toggleStat={this.toggleStat}
+                        showPoints={this.state.showPoints}
+                        dowLast={this.state.dowLast}
+                        spLast={this.state.spLast}
+                        nasLast={this.state.nasLast}
+                        dowChange={this.state.dowChange}
+                        spChange={this.state.spChange}
+                        nasChange={this.state.nasChange}
+                        getUserWatchlists={this.getUserWatchlists}
+                        userWatchlists={this.state.userWatchlists}
+                        newWatchlist={this.state.newWatchlist}
+                        techChange={this.state.techChange}
+                        healthChange={this.state.healthChange} 
+                        financialChange={this.state.financialChange}
+                        communicationChange={this.state.communicationChange}
+                        industrialChange={this.state.industrialChange}
+                        energyChange={this.state.energyChange}
+                        utilitiesChange={this.state.utilitiesChange}
+                        realEstateChange={this.state.realEstateChange}
+                        materialsChange={this.state.materialsChange}
+                        preciousMetalsChange={this.state.preciousMetalsChange}/>
+                        }}/>
+        <Route exact path="/details" render={(props)=>{ 
+          return <StockView currentUser={this.state.currentUser}
+                            currentStock={this.state.currentStock}
+                            handleStockSearch={this.handleStockSearch}/>
+          }}/>
+      </BrowserRouter>
+
+        
     </div>
     )
   } 
 }
 
-export default App;
+export default App

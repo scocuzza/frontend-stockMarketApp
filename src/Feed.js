@@ -10,9 +10,7 @@ class WatchlistFeed extends Component {
         }
     }
     getFeedData = () => {
-        console.log(process.env.REACT_APP_FLASK_API_URL);
         axios.get(process.env.REACT_APP_FLASK_API_URL + '/logs/').then(response => {
-            console.log(response.data.data);
             this.setState({
                 feedArray: response.data.data
             })
@@ -21,9 +19,9 @@ class WatchlistFeed extends Component {
     }
     componentDidMount() {
         this.getFeedData()
-        // setInterval(() => {
-        //     this.getFeedData()
-        //   }, 5000);
+        setInterval(() => {
+            this.getFeedData()
+          }, 5000);
     }
     render(){
         let feedItems = ''

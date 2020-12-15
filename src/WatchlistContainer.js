@@ -9,7 +9,7 @@ class WatchlistContainer extends Component {
         return (<p>{watchlist.watchlistname} {watchlist.created_at}</p>)})
     return (
         <Segment style={{overflow: 'auto', height: 152, maxHeight: 152 }}>
-                <h2>Watchlists <Button compact>+</Button> </h2>
+                <h2>Watchlists {isLoggedIn ? <Button onClick={this.props.openWatchlistModal} compact>+</Button> : null} </h2>
                 {!isLoggedIn ? 
                 <>
                     <p> Don't see any Watchlists?</p>

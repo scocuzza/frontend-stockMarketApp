@@ -20,7 +20,7 @@ class SectorItem extends Component {
     this.setState({ activeIndex: newIndex })
   }
   componentDidMount() {
-    this.getSectorData()
+  this.getSectorData()
   //   setInterval( ()=> {
   //     this.getSectorData()
   // },10000)
@@ -34,9 +34,7 @@ class SectorItem extends Component {
         }
     }).then(response => {
         let ticker = this.props.ticker
-        console.log(response.data[ticker].netChange);
         this.setState({
-            netChange: (response.data[ticker].lastPrice - response.data[ticker].openPrice).toFixed(2),
             description: response.data[ticker].description
         })
     })
@@ -54,7 +52,7 @@ class SectorItem extends Component {
           onClick={this.handleClick}
         >
           <Icon name='dropdown' />
-            {this.props.name} <span style={ isPositive ? {color:'green'} : {color:'red'}}>  {isPositive ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.state.netChange} </span>
+            {this.props.name} <span style={ isPositive ? {color:'green'} : {color:'red'}}>  {isPositive ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.change} {this.props.showPoints ? null : '%'}</span>
         </Accordion.Title>
         
         <Accordion.Content active={activeIndex === this.props.index}>
