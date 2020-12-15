@@ -29,7 +29,7 @@ class SectorItem extends Component {
     axios({
         url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
         params: {
-            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
+            apikey: process.env.REACT_APP_API_KEY_TD,
             symbol: this.props.ticker
         }
     }).then(response => {

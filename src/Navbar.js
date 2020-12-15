@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'semantic-ui-react'
-import axios from 'axios'
-import RegisterUserModal from './RegisterUserModal'
-import LoginUserModal from './LoginUserModal'
+import ToggleSlide from './ToggleSlide';
 
 class Navbar extends Component {
     constructor(props){
@@ -57,7 +55,10 @@ class Navbar extends Component {
             onClick={this.handleItemClick, this.props.logout}
           >Logout</Menu.Item> : null
          }
-         
+         <Menu.Item 
+          name="toggleslide"
+          > <ToggleSlide showPoints={this.props.showPoints} toggleStat={this.props.toggleStat}/></Menu.Item>
+
             <Menu.Menu position='right'>
             <div className='ui right aligned category search item'>
             <div className='ui transparent icon input'>
