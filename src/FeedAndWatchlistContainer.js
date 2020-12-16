@@ -21,7 +21,8 @@ class FeedAndWatchlistContainer extends Component {
                     openLoginUserModal={this.props.openLoginUserModal}
                     logout={this.props.logout}
                     userWatchlists={this.props.userWatchlists}
-                    openWatchlistModal={this.props.openWatchlistModal}/>
+                    openWatchlistModal={this.props.openWatchlistModal}
+                    newWatchlist={this.props.newWatchlist}/>
             <Divider horizontal></Divider>
             <Feed />
         </>

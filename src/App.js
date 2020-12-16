@@ -19,6 +19,7 @@ class App extends Component {
 
     },
     newWatchlist: {
+      username: '',
       watchlist_id: '',
       watchlistname: ''
     },
@@ -32,6 +33,7 @@ class App extends Component {
   handleNewWatchlistChange = (e) => {
     this.setState({
       newWatchlist: {
+        username: this.state.currentUser.user.username,
         watchlist_id: this.state.currentUser.user.id,
         watchlistname: e.currentTarget.value
       }
@@ -63,6 +65,7 @@ class App extends Component {
       this.setState({
         showNewWatchlistModal: false,
         newWatchlist: {
+          username: '',
           watchlist_id: '',
           watchlistname: ''
         }
@@ -160,7 +163,6 @@ class App extends Component {
       if(isLoggedIn) {
           axios.get(process.env.REACT_APP_FLASK_API_URL + '/watchlists/' + this.state.currentUser.user.id)
           .then( response => {
-              console.log(response.data);
               this.setState({
                   userWatchlists: response.data.data
               })
@@ -285,10 +287,20 @@ class App extends Component {
   
   componentDidMount() {
     this.getIndiceData()
-    setInterval( ()=> {
-      this.getUserWatchlists()
-      this.getIndiceData()
+    this.getWatchlists = setInterval( ()=> {
+        this.getUserWatchlists()
     },5000)
+    this.getIndexData = setInterval( ()=> {
+        this.getIndiceData()
+    },5000)
+  }
+
+    componentWillUnmount() {
+      clearInterval(this.getWatchlists)
+      clearInterval(this.getIndexData)
+      this.getWatchlists = null
+      this.getIndexData = null
+    
   }
   render(){
     return(
@@ -297,13 +309,16 @@ class App extends Component {
         <Route exact path="/" render={(props)=> {
           return <Home  showNewUserModal={this.state.showNewUserModal}
                         showLoginUserModal={this.state.showLoginUserModal}
+                        showNewWatchlistModal={this.state.showNewWatchlistModal}
                         newUser={this.state.newUser}
                         currentUser={this.state.currentUser}
                         handleNewUserChange={this.handleNewUserChange}
                         handleStockSearch={this.handleStockSearch}
+                        handleNewWatchlistChange={this.handleNewWatchlistChange}
                         closeModal={this.closeModal}
                         closeAndCreate={this.closeAndCreate}
                         closeAndLogin={this.closeAndLogin}
+                        createWatchlist={this.createWatchlist}
                         openNewUserModal={this.openNewUserModal}
                         openLoginUserModal={this.openLoginUserModal}
                         openWatchlistModal={this.openWatchlistModal}
@@ -333,7 +348,9 @@ class App extends Component {
         <Route exact path="/details" render={(props)=>{ 
           return <StockView currentUser={this.state.currentUser}
                             currentStock={this.state.currentStock}
-                            handleStockSearch={this.handleStockSearch}/>
+                            handleStockSearch={this.handleStockSearch}
+                            showPoints={this.state.showPoints}
+                            toggleStat={this.toggleStat}/>
           }}/>
       </BrowserRouter>
 

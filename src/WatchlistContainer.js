@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Segment, List, Button } from 'semantic-ui-react'
-import axios from 'axios'
 
 class WatchlistContainer extends Component {
   render() {

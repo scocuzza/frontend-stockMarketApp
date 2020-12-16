@@ -22,10 +22,10 @@ const LoginUserModal = (props) => {
             onChange={props.handleNewUserChange}
           />
           <Modal.Actions>
-            <Button color="green" type="submit">
+            <Button color="blue" type="submit">
               Login
             </Button>
-            <Button color="red" type="button" onClick={props.closeModal}>
+            <Button color="black" type="button" onClick={props.closeModal}>
               Cancel
             </Button>
           </Modal.Actions>

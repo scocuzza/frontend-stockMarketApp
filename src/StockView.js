@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Navbar from './Navbar'
-import { Accordion, Icon } from 'semantic-ui-react'
-import StockPriceChart from './StockPriceChart'
+import { Accordion, Icon, Table, Image, Header } from 'semantic-ui-react'
 import StockPriceChart2 from './StockPriceChart2'
 import axios from 'axios'
 
@@ -10,6 +9,8 @@ class StockView extends Component {
         super(props)
         this.state = {
             data: [],
+            change: [],
+            last: [],
             time: [],
             price: []
         }
@@ -26,30 +27,60 @@ class StockView extends Component {
 
     getStockData = () => {
         console.log('getting stock data');
-        axios({
-            url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
-            params: {
-                apikey: process.env.REACT_APP_API_KEY_TD,
-                symbol: this.props.currentStock
-            }
-        }).then(response => {
-            console.log(Object.keys(response.data));
-            this.setState({
-                symbol: Object.keys(response.data),
-                data: response.data
+        try {
+            axios({
+                url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
+                params: {
+                    apikey: process.env.REACT_APP_API_KEY_TD,
+                    symbol: this.props.currentStock
+                }
+            }).then(response => {
+                console.log(Object.keys(response.data));
+                this.setState({
+                    symbol: Object.keys(response.data),
+                    data: response.data
+                })
+                let ticker = Object.keys(this.state.data)
+                this.setState({
+                    data: this.state.data[ticker]
+                })
+                if(this.props.showPoints) {
+                    this.setState({
+                        netChange: this.state.data.netChange
+                    })
+                } else {
+                    this.setState({
+                        netChange: ((this.state.data.netChange / this.state.data.openPrice) * 100).toFixed(2)
+                    })
+                }
             })
-            let ticker = Object.keys(this.state.data)
-            this.setState({
-                data: this.state.data[ticker]
-            })
-        })
+        } catch (error) {
+            console.log('unable to get stock data');
+        }
+       
     }
     
     componentDidMount() {
         this.getStockData()
+        this.getData = setInterval( ()=> {
+             this.getStockData()
+          },5000)
+
+    }
+    componentWillUnmount() {
+        clearInterval(this.getData)
+        this.getData = null
     }
     render() {
         const { activeIndex } = this.state
+        let netChange = this.state.netChange;
+        let description = this.state.data.description
+        let lastPrice = this.state.data.lastPrice
+        let openPrice = this.state.data.openPrice
+        let totalVolume = this.state.data.totalVolume
+        let weekHigh = this.state.data['52WkHigh']
+        let weekLow = this.state.data['52WkLow']
+      
         return(
             <>
             <Navbar showNewUserModal={this.props.showNewUserModal}
@@ -77,9 +108,31 @@ class StockView extends Component {
                 onClick={this.handleClick}
                 >
                 <Icon name='dropdown' />
-                {this.state.symbol}
+                {this.state.symbol} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 0}>
+                <Table basic='very' celled collapsing>
+                    <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Description</Table.HeaderCell>
+                        <Table.HeaderCell>Open Price</Table.HeaderCell>
+                        <Table.HeaderCell>Last Price</Table.HeaderCell>
+                        <Table.HeaderCell>Total Volume</Table.HeaderCell>
+                        <Table.HeaderCell>52WkHigh</Table.HeaderCell>
+                        <Table.HeaderCell>52WkLow</Table.HeaderCell>
+                    </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                    <Table.Row>
+                        <Table.Cell>{description}</Table.Cell>
+                        <Table.Cell>{openPrice}</Table.Cell>
+                        <Table.Cell>{lastPrice}</Table.Cell>
+                        <Table.Cell>{totalVolume}</Table.Cell>
+                        <Table.Cell>{weekLow}</Table.Cell>
+                        <Table.Cell>{weekHigh}</Table.Cell>
+                    </Table.Row>
+                    </Table.Body>
+                </Table>
                 </Accordion.Content>
             </Accordion>
             </>

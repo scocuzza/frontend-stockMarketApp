@@ -58,7 +58,7 @@ class Navbar extends Component {
          }
          <Menu.Item 
           name="toggleslide"
-          > <ToggleSlide showPoints={this.props.showPoints} toggleStat={this.props.toggleStat}/>{this.props.showPoints ? <p>Show Points</p>: <p>Show Percent</p>}</Menu.Item>
+          > <ToggleSlide showPoints={this.props.showPoints} toggleStat={this.props.toggleStat}/></Menu.Item>
 
             <Menu.Menu position='right'>
               <div className='ui right aligned category search item'>

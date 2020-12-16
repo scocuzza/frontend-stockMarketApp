@@ -19,9 +19,13 @@ class WatchlistFeed extends Component {
     }
     componentDidMount() {
         this.getFeedData()
-        setInterval(() => {
+        this.getFeeds = setInterval(() => {
             this.getFeedData()
           }, 5000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.getFeeds)
+        this.getFeeds = null
     }
     render(){
         let feedItems = ''
@@ -30,7 +34,7 @@ class WatchlistFeed extends Component {
                     <Feed.Event>
                     <Feed.Content>
                     <Feed.Summary>
-                        <Icon name ='user outline'></Icon> <Feed.User> {feedItem.username}</Feed.User> {feedItem.activity} 
+                        {feedItem.activityType == 'user' ? <Icon name ='user outline'></Icon>: <Icon name ='unordered list'></Icon>} <Feed.User> {feedItem.username}</Feed.User> {feedItem.activity} {feedItem.watchlistname}
                         <Feed.Date>{feedItem.created_at}</Feed.Date>
                     </Feed.Summary>
                     <Feed.Meta>

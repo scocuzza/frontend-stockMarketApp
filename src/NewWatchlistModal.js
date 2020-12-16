@@ -18,10 +18,10 @@ class NewWatchlistModal extends Component {
                     onChange={this.props.handleNewWatchlistChange}
                 />
                 <Modal.Actions>
-                    <Button color="green" type="submit">
+                    <Button color="blue" type="submit">
                     Create
                     </Button>
-                    <Button color="red" type="button" onClick={this.props.closeModal}>
+                    <Button color="black" type="button" onClick={this.props.closeModal}>
                     Cancel
                     </Button>
                 </Modal.Actions>
