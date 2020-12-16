@@ -11,7 +11,7 @@ class AddToWatchlistModal extends Component {
             <Modal open={this.props.open}>
             <Header>Add Stock to Watchlist</Header>
             <Modal.Content>
-                <Form>
+                <Form onSubmit={this.props.addStockToWatchlist}>
                 {/* <Dropdown onChange={this.props.handleNewStockChange} placeholder="Select Watchlist.." fluid selection options={this.props.watchlistOptions} ></Dropdown> */}
                 <select onChange={this.props.handleNewStockChange} placeholder="Select Watchlist..">
                     <option selected> </option>

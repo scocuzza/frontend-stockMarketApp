@@ -60,7 +60,9 @@ class Home extends Component {
                 utilitiesChange={this.props.utilitiesChange}
                 realEstateChange={this.props.realEstateChange}
                 materialsChange={this.props.materialsChange}
-                preciousMetalsChange={this.props.preciousMetalsChange}/>
+                preciousMetalsChange={this.props.preciousMetalsChange}
+                handleCurrentWatchlist={this.props.handleCurrentWatchlist}
+                getWatchlistStocks={this.props.getWatchlistStocks}/>
         <RegisterUserModal
                 handleNewUserChange={this.props.handleNewUserChange}
                 open={this.props.showNewUserModal}

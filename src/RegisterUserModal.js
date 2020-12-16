@@ -29,7 +29,7 @@ const RegisterUserModal = (props) => {
             onChange={props.handleNewUserChange}
           />
           <Modal.Actions>
-            <Button color="blue" type="submit">
+            <Button color="green" type="submit">
               Register
             </Button>
             <Button color="black" type="button" onClick={props.closeModal}>

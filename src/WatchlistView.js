@@ -5,7 +5,14 @@ import Navbar from './Navbar'
 
 class WatchlistView extends Component {
 
+    
+    componentDidMount = () => {
+        this.props.getWatchlistStockData()
+    }
     render(){
+        const stocks = this.props.retrievedStocks.map(item=>{ 
+            return <p>{item}</p>
+        })
         return(
            <>
             <Navbar showNewUserModal={this.props.showNewUserModal}
@@ -30,11 +37,11 @@ class WatchlistView extends Component {
                <Grid.Row>   
                 <Grid.Column>
                 <Segment style={{overflow: 'auto', height: 600, maxHeight: 600, width: 100 }}>
-                    
+                    {stocks}
                 </Segment>
                 </Grid.Column>
                 <Grid.Column>
-                    <StockPriceChart2 currentStock="TSLA" time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
+                    {/* <StockPriceChart2 currentStock="TSLA" time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/> */}
                 </Grid.Column>
                </Grid.Row>
         </Grid>

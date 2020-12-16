@@ -62,9 +62,9 @@ class StockView extends Component {
     }
     componentDidMount() {
         // this.getStockData()
-        // this.getData = setInterval( ()=> {
-        //      this.getStockData()
-        //   },5000)
+        this.getData = setInterval( ()=> {
+             this.props.getCurrentStockData()
+          },5000)
     }
     componentWillUnmount() {
         clearInterval(this.getData)
@@ -140,7 +140,8 @@ class StockView extends Component {
             <AddToWatchlistModal  open={this.props.openAddStock}
                                   watchlistOptions={this.props.watchlistOptions}
                                   close={this.props.closeModal}
-                                  handleNewStockChange={this.props.handleNewStockChange}/>
+                                  handleNewStockChange={this.props.handleNewStockChange}
+                                  addStockToWatchlist={this.props.addStockToWatchlist}/>
             </>
         )
     }

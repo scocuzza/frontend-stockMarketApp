@@ -30,10 +30,15 @@ class App extends Component {
       watchlist_id: '',
       user_id: ''
     },
+    selectedWatchlist: {
+      user_id: '',
+      watchlistname: '' 
+    },
     currentUser: {},
     userWatchlists: [],
     currentStock: '',
     currentStockData: [],
+    retrievedStocks: [],
     showPoints: false
   }
   }
@@ -72,8 +77,10 @@ class App extends Component {
           newStock: {
             stock: '',
             watchlist_id: '',
-            user_id: ''
-          }
+            user_id: '',
+            username: ''
+          },
+          showAddStockToWatchlistModal: false
         })
       console.log(newStockResponse, ' new Stock');
     } catch (err) {
@@ -97,6 +104,26 @@ class App extends Component {
         })
     }
   }
+  //get stocks for watchlist
+  getWatchlistStocks = async () => {
+    try {
+      const newStockResponse = await axios.post(
+        process.env.REACT_APP_FLASK_API_URL  + '/stocks/watchlist',
+        this.state.selectedWatchlist
+      );
+      console.log(newStockResponse, ' new Stock');
+      const response = newStockResponse.data.data
+      let stockArray = response.map(item => {
+        return item.stock
+      })
+      console.log(stockArray);
+      this.setState({
+        retrievedStocks: stockArray
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }
   //Close any open modals
   closeModal = () => {
     this.setState({
@@ -106,6 +133,17 @@ class App extends Component {
       showAddStockToWatchlistModal: false
     });
   };
+  handleCurrentWatchlist = async (e) => {
+    console.log(e.currentTarget.text);
+    await this.setState({
+      selectedWatchlist: {
+        user_id: this.state.currentUser.user.id,
+        watchlistname: e.currentTarget.text
+      }
+    })
+    console.log(this.state.selectedWatchlist);
+    await this.getWatchlistStocks()
+  }
   //Set the state for the new watchlist 
   handleNewWatchlistChange = (e) => {
     this.setState({
@@ -124,7 +162,8 @@ class App extends Component {
       newStock: {
         stock: this.state.currentStock.toUpperCase(),
         watchlist_id: e.currentTarget.value,
-        user_id: this.state.currentUser.user.id
+        user_id: this.state.currentUser.user.id,
+        username: this.state.currentUser.user.username
       }
     })
   }
@@ -416,7 +455,24 @@ class App extends Component {
         })
     })
     .catch( e => {console.log((e));})
-}
+  }
+  //Get data for the stocks in the watchlist
+  getWatchlistStockData = async () => {
+    console.log('getting stock data');
+    console.log((this.state.retrievedStocks));
+    await axios({
+        url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
+        params: {
+            apikey: process.env.REACT_APP_API_KEY_TD,
+            symbol: this.state.retrievedStocks
+        }
+    }).then(response => {
+        this.setState({
+            watchlistStockData: response.data
+        })
+    })
+    .catch( e => {console.log((e));})
+  }
   componentDidMount() {
     this.getIndiceData()
     this.getWatchlists = setInterval( ()=> {
@@ -425,12 +481,17 @@ class App extends Component {
     this.getIndexData = setInterval( ()=> {
         this.getIndiceData()
     },5000)
+    this.currentStockDataGet = setInterval( ()=> {
+      //this.getCurrentStockData()
+    }, 5000)
   }
   componentWillUnmount() {
       clearInterval(this.getWatchlists)
       clearInterval(this.getIndexData)
+      clearInterval(this.currentStockDataGet)
       this.getWatchlists = null
       this.getIndexData = null
+      this.currentStockDataGet = null
   }
   render(){
     return(
@@ -476,7 +537,9 @@ class App extends Component {
                         preciousMetalsChange={this.state.preciousMetalsChange}
                         getCurrentStockData={this.getCurrentStockData}
                         getCurrentStockHistory={this.getCurrentStockHistory}
-                        createWatchlistOptions={this.createWatchlistOptions}/>
+                        createWatchlistOptions={this.createWatchlistOptions}
+                        handleCurrentWatchlist={this.handleCurrentWatchlist}
+                        getWatchlistStocks={this.getWatchlistStocks}/>
                         }}/>
         <Route exact path="/details" render={(props)=>{ 
           return <StockView currentUser={this.state.currentUser}
@@ -514,7 +577,10 @@ class App extends Component {
                             showPoints={this.state.showPoints}
                             toggleStat={this.toggleStat}
                             getCurrentStockData={this.getCurrentStockData}
-                            getCurrentStockHistory={this.getCurrentStockHistory}/>
+                            getCurrentStockHistory={this.getCurrentStockHistory}
+                            retrievedStocks={this.state.retrievedStocks}
+                            getWatchlistStockData={this.getWatchlistStockData}
+                            />
           }}/>
       </BrowserRouter>
     </div>
