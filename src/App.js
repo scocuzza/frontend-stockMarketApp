@@ -12,6 +12,7 @@ class App extends Component {
       showNewUserModal: false,
       showLoginUserModal: false,
       showNewWatchlistModal: false,
+      showAddStockToWatchlistModal: false,
       newUser: {
         username: '',
         email: '',
@@ -49,12 +50,36 @@ class App extends Component {
       showLoginUserModal: true,
     });
   };
+  openAddStockToWatchlistModal = (e) => {
+    e.stopPropagation();
+    this.setState({
+      showAddStockToWatchlistModal: true,
+    });
+  }
+
+  createWatchlistOptions = () => {
+    let watchlistOptions = []
+    if (this.state.userWatchlists != []) {
+        this.state.userWatchlists.forEach(element => {
+            let option = {
+                key: element.watchlistname,
+                value: element.watchlistname,
+                text: element.watchlistname
+            }
+            watchlistOptions.push(option)
+        });
+        this.setState({
+            watchlistOptions: watchlistOptions
+        })
+    }
+  }
   //Close any open modals
   closeModal = () => {
     this.setState({
       showNewUserModal: false,
       showLoginUserModal: false,
-      showNewWatchlistModal: false
+      showNewWatchlistModal: false,
+      showAddStockToWatchlistModal: false
     });
   };
   //Set the state for the new watchlist 
@@ -80,6 +105,12 @@ class App extends Component {
   handleStockSearch = (e) =>{ 
     this.setState({
       currentStock: e.currentTarget.value
+    })
+  }
+  //Set the state for the selected watchlist
+  handleSelectedWatchlist = (e) => {
+    this.setState({
+      selectedWatchlist: e.currentTarget.value
     })
   }
   //Call the backend to create the watchlist
@@ -410,7 +441,8 @@ class App extends Component {
                         materialsChange={this.state.materialsChange}
                         preciousMetalsChange={this.state.preciousMetalsChange}
                         getCurrentStockData={this.getCurrentStockData}
-                        getCurrentStockHistory={this.getCurrentStockHistory}/>
+                        getCurrentStockHistory={this.getCurrentStockHistory}
+                        createWatchlistOptions={this.createWatchlistOptions}/>
                         }}/>
         <Route exact path="/details" render={(props)=>{ 
           return <StockView currentUser={this.state.currentUser}
@@ -425,6 +457,12 @@ class App extends Component {
                             toggleStat={this.toggleStat}
                             getCurrentStockData={this.getCurrentStockData}
                             getCurrentStockHistory={this.getCurrentStockHistory}
+
+                            closeModal={this.closeModal}
+                            openAddStock={this.state.showAddStockToWatchlistModal}
+                            openAddStockToWatchlistModal={this.openAddStockToWatchlistModal}
+                            handleSelectedWatchlist={this.handleSelectedWatchlist}
+                            watchlistOptions={this.state.watchlistOptions}
                             />
           }}/>
       </BrowserRouter>

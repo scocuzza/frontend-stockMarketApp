@@ -34,7 +34,7 @@ class WatchlistFeed extends Component {
                     <Feed.Event>
                     <Feed.Content>
                     <Feed.Summary>
-                        {feedItem.activityType === 'user' ? <Icon name ='user outline'></Icon>: <Icon name ='unordered list'></Icon>}<Feed.User> {feedItem.username}</Feed.User> {feedItem.activity} {feedItem.watchlistname}
+                        {feedItem.activityType === 'user' ? <Icon name ='user outline'></Icon>: <Icon name ='unordered list'></Icon>} <Feed.User>{feedItem.username}</Feed.User> {feedItem.activity} {feedItem.watchlistname}
                         <Feed.Date>{feedItem.created_at}</Feed.Date>
                     </Feed.Summary>
                     <Feed.Meta>

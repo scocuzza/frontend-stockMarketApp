@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Navbar from './Navbar'
-import { Accordion, Icon, Table } from 'semantic-ui-react'
+import { Accordion, Button, Icon, Table } from 'semantic-ui-react'
 import StockPriceChart2 from './StockPriceChart2'
+import AddToWatchlistModal from './AddToWatchlistModal'
 import axios from 'axios'
 
 class StockView extends Component {
@@ -59,13 +60,11 @@ class StockView extends Component {
         }
        
     }
-    
     componentDidMount() {
         // this.getStockData()
         // this.getData = setInterval( ()=> {
         //      this.getStockData()
         //   },5000)
-
     }
     componentWillUnmount() {
         clearInterval(this.getData)
@@ -81,7 +80,7 @@ class StockView extends Component {
         let totalVolume = this.props.currentStockData.totalVolume
         let weekHigh = this.props.currentStockData['52WkHigh']
         let weekLow = this.props.currentStockData['52WkLow']
-      
+        let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
         return(
             <>
             <Navbar showNewUserModal={this.props.showNewUserModal}
@@ -102,7 +101,7 @@ class StockView extends Component {
                 getStockHistory={this.getIndiceData}
                 getCurrentStockData={this.props.getCurrentStockData}
                 getCurrentStockHistory={this.props.getCurrentStockHistory}/>
-            <h1 style={{textAlign: 'center'}}>{currentStock}</h1>
+            <h1 style={{textAlign: 'center'}}>{currentStock} {isLoggedIn ? <Button  onClick={this.props.openAddStockToWatchlistModal}>+</Button> : null}</h1> 
             <StockPriceChart2 currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
             <Accordion styled fluid>
                 <Accordion.Title
@@ -138,6 +137,9 @@ class StockView extends Component {
                 </Table>
                 </Accordion.Content>
             </Accordion>
+            <AddToWatchlistModal  open={this.props.openAddStock}
+                                  watchlistOptions={this.props.watchlistOptions}
+                                  close={this.props.closeModal}/>
             </>
         )
     }

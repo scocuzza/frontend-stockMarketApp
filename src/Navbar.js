@@ -74,6 +74,7 @@ class Navbar extends Component {
                                       onClick={() => {
                                         this.props.getCurrentStockData()
                                         this.props.getCurrentStockHistory()
+                                        this.props.createWatchlistOptions()
                                       }}>
                     <i className='search link icon' />
                   </Link>

@@ -25,7 +25,8 @@ class Home extends Component {
                 toggleStat={this.props.toggleStat}
                 showPoints={this.props.showPoints}
                 getCurrentStockData={this.props.getCurrentStockData}
-                getCurrentStockHistory={this.props.getCurrentStockHistory}/>
+                getCurrentStockHistory={this.props.getCurrentStockHistory}
+                createWatchlistOptions={this.props.createWatchlistOptions}/>
         <Indexheading showPoints={this.props.showPoints}
                 dowLast={this.props.dowLast}
                 spLast={this.props.spLast}
