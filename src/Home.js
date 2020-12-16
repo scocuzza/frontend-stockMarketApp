@@ -23,7 +23,9 @@ class Home extends Component {
                 openLoginUserModal={this.props.openLoginUserModal}
                 logout={this.props.logout}
                 toggleStat={this.props.toggleStat}
-                showPoints={this.props.showPoints}/>
+                showPoints={this.props.showPoints}
+                getCurrentStockData={this.props.getCurrentStockData}
+                getCurrentStockHistory={this.props.getCurrentStockHistory}/>
         <Indexheading showPoints={this.props.showPoints}
                 dowLast={this.props.dowLast}
                 spLast={this.props.spLast}

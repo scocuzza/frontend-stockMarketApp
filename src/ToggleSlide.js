@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Checkbox, Label } from 'semantic-ui-react'
+import { Checkbox } from 'semantic-ui-react'
 
 class ToggleSlide extends Component{
     render(){

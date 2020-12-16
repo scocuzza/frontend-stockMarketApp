@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Segment, List, Button } from 'semantic-ui-react'
+import { Segment, Button } from 'semantic-ui-react'
 
 class WatchlistContainer extends Component {
   render() {
-    let isLoggedIn = Object.keys(this.props.currentUser).length != 0
+    let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
     const watchlists = this.props.userWatchlists.map(watchlist => {
         return (<p>{watchlist.watchlistname} {watchlist.created_at}</p>)})
     return (

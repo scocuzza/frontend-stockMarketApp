@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Accordion, Icon } from 'semantic-ui-react'
+import { Accordion } from 'semantic-ui-react'
 import SectorItem from './SectorItem'
 
 class SectorContainer extends Component {

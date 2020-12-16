@@ -1,7 +1,7 @@
 import './App.css';
 import axios from 'axios'
 import { Component } from 'react';
-import { BrowserRouter as BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import Home from './Home'
 import StockView from './StockView';
 
@@ -30,6 +30,34 @@ class App extends Component {
     showPoints: true
   }
   }
+  //Methods to Open Models
+  openNewUserModal = (e) => {
+    e.stopPropagation();
+    this.setState({
+      showNewUserModal: true,
+    });
+  };
+  openWatchlistModal = (e) => {
+    e.stopPropagation();
+    this.setState({
+      showNewWatchlistModal: true,
+    });
+  };
+  openLoginUserModal = (e) => {
+    e.stopPropagation();
+    this.setState({
+      showLoginUserModal: true,
+    });
+  };
+  //Close any open modals
+  closeModal = () => {
+    this.setState({
+      showNewUserModal: false,
+      showLoginUserModal: false,
+      showNewWatchlistModal: false
+    });
+  };
+  //Set the state for the new watchlist 
   handleNewWatchlistChange = (e) => {
     this.setState({
       newWatchlist: {
@@ -39,6 +67,7 @@ class App extends Component {
       }
     })
   }
+  //Set the state for the new User
   handleNewUserChange = (e) => {
     this.setState({
       newUser: {
@@ -47,13 +76,13 @@ class App extends Component {
       },
     });
   };
-  closeModal = () => {
+  //Set the state for the currently searched stock
+  handleStockSearch = (e) =>{ 
     this.setState({
-      showNewUserModal: false,
-      showLoginUserModal: false,
-      showNewWatchlistModal: false
-    });
-  };
+      currentStock: e.currentTarget.value
+    })
+  }
+  //Call the backend to create the watchlist
   createWatchlist = async (e) => {
     e.preventDefault();
     try {
@@ -74,7 +103,8 @@ class App extends Component {
       console.log(err);
     }
 
-    }
+  }
+  //Call the backend to create the User
   closeAndCreate = async (e) => {
     e.preventDefault();
     try {
@@ -97,6 +127,7 @@ class App extends Component {
       console.log(err);
     }
   };
+  //Call the backend to login the user
   closeAndLogin = async (e) => {
     e.preventDefault();
     try {
@@ -121,24 +152,7 @@ class App extends Component {
       console.log(err);
     }
   };
-  openNewUserModal = (e) => {
-    e.stopPropagation();
-    this.setState({
-      showNewUserModal: true,
-    });
-  };
-  openWatchlistModal = (e) => {
-    e.stopPropagation();
-    this.setState({
-      showNewWatchlistModal: true,
-    });
-  };
-  openLoginUserModal = (e) => {
-    e.stopPropagation();
-    this.setState({
-      showLoginUserModal: true,
-    });
-  };
+  //Call the backend to logout the user
   logout = async (e) => {
     e.preventDefault();
     console.log(this.state.currentUser.token);
@@ -158,8 +172,9 @@ class App extends Component {
       console.log(err);
     }
   }
+  //Get the latest list of watchlists for current user from backend
   getUserWatchlists = () => {
-      let isLoggedIn = Object.keys(this.state.currentUser).length != 0
+      let isLoggedIn = Object.keys(this.state.currentUser).length !== 0
       if(isLoggedIn) {
           axios.get(process.env.REACT_APP_FLASK_API_URL + '/watchlists/' + this.state.currentUser.user.id)
           .then( response => {
@@ -169,6 +184,7 @@ class App extends Component {
           })
       }
   }
+  //Call this to toggle the netChange from points to percent and vice versa
   toggleStat = () => {
     if(this.state.showPoints) {
       this.setState({
@@ -185,6 +201,7 @@ class App extends Component {
           realEstateChange: ((this.state.realEstate.netChange / this.state.realEstate.openPrice) * 100).toFixed(2),
           materialsChange: ((this.state.materials.netChange / this.state.materials.openPrice) * 100).toFixed(2),
           preciousMetalsChange: ((this.state.preciousMetals.netChange / this.state.preciousMetals.openPrice) * 100).toFixed(2),
+          currentStockChange: ((this.state.currentStockData.netChange / this.state.currentStockData.openPrice) * 100).toFixed(2),
           showPoints: false
       })
   } else {
@@ -202,12 +219,14 @@ class App extends Component {
           realEstateChange: this.state.realEstate.netChange,
           materialsChange: this.state.materials.netChange,
           preciousMetalsChange: this.state.preciousMetals.netChange,
+          currentStockChange: this.state.currentStockData.netChange,
           showPoints: true
       })
   }
   }
-  getIndiceData = () => {
-    axios({
+  //Get all data for the home page $DJI,$COMPX,$SPX.X,VGT,VHT,VFH,VOX,VIS,VDE,VPU,VNQ,VAW,GLD'
+  getIndiceData = async () => {
+    await axios({
         url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
         params: {
             apikey: process.env.REACT_APP_API_KEY_TD,
@@ -279,12 +298,58 @@ class App extends Component {
     })
     .catch( e => {console.log((e));})
   }
-  handleStockSearch = (e) =>{ 
-    this.setState({
-      currentStock: e.currentTarget.value
+  //Get the stock data and set in state for the Searched stock
+  getCurrentStockData = async () => {
+    console.log('getting stock data');
+    await axios({
+        url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
+        params: {
+            apikey: process.env.REACT_APP_API_KEY_TD,
+            symbol: this.state.currentStock
+        }
+    }).then(response => {
+      let ticker = this.state.currentStock.toUpperCase()
+        this.setState({
+            currentStockData: response.data[ticker]
+        })
+        if(this.state.showPoints) {
+          this.setState({
+            currentStockChange: (this.state.currentStockData.netChange)
+          })
+        } else {
+          this.setState({
+            currentStockChange: ((this.state.currentStockData.netChange / this.state.currentStockData.openPrice) * 100).toFixed(2)
+          })
+        }
     })
+    .catch( e => {console.log((e));})
   }
-  
+  //Get the current stock history and set in the state for the Searched stock
+  getCurrentStockHistory = async () => {
+    console.log('getting history data');
+    await axios({
+        url: `https://api.tdameritrade.com/v1/marketdata/${this.state.currentStock.toUpperCase()}/pricehistory`,
+        params: {
+            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
+            periodType: 'ytd',
+            period: '1',
+            frequencyType: 'daily',
+            frequency: '1'
+        }
+    }).then(response => {
+        const timedata = response.data.candles.map(element => {
+            return element.datetime
+        });
+        const pricedata = response.data.candles.map(element => {
+            return Math.round(element.close, 0)
+        })
+        this.setState({
+          currentStockHistoryTime: timedata,
+          currentStockHistoryPrice: pricedata
+        })
+    })
+    .catch( e => {console.log((e));})
+}
   componentDidMount() {
     this.getIndiceData()
     this.getWatchlists = setInterval( ()=> {
@@ -295,7 +360,7 @@ class App extends Component {
     },5000)
   }
 
-    componentWillUnmount() {
+  componentWillUnmount() {
       clearInterval(this.getWatchlists)
       clearInterval(this.getIndexData)
       this.getWatchlists = null
@@ -343,18 +408,26 @@ class App extends Component {
                         utilitiesChange={this.state.utilitiesChange}
                         realEstateChange={this.state.realEstateChange}
                         materialsChange={this.state.materialsChange}
-                        preciousMetalsChange={this.state.preciousMetalsChange}/>
+                        preciousMetalsChange={this.state.preciousMetalsChange}
+                        getCurrentStockData={this.getCurrentStockData}
+                        getCurrentStockHistory={this.getCurrentStockHistory}/>
                         }}/>
         <Route exact path="/details" render={(props)=>{ 
           return <StockView currentUser={this.state.currentUser}
                             currentStock={this.state.currentStock}
+                            currentStockData={this.state.currentStockData}
+                            currentStockChange={this.state.currentStockChange}
+                            currentStockHistory={this.state.currentStockHistory}
+                            currentStockHistoryPrice={this.state.currentStockHistoryPrice}
+                            currentStockHistoryTime={this.state.currentStockHistoryTime}
                             handleStockSearch={this.handleStockSearch}
                             showPoints={this.state.showPoints}
-                            toggleStat={this.toggleStat}/>
+                            toggleStat={this.toggleStat}
+                            getCurrentStockData={this.getCurrentStockData}
+                            getCurrentStockHistory={this.getCurrentStockHistory}
+                            />
           }}/>
       </BrowserRouter>
-
-        
     </div>
     )
   } 

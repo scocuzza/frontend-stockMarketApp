@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Accordion, Icon } from 'semantic-ui-react'
-import axios from 'axios'
 
 class SectorItem extends Component {
     constructor(props) {
@@ -18,27 +17,6 @@ class SectorItem extends Component {
     const newIndex = activeIndex === index ? -1 : index
 
     this.setState({ activeIndex: newIndex })
-  }
-  componentDidMount() {
-  this.getSectorData()
-  //   setInterval( ()=> {
-  //     this.getSectorData()
-  // },10000)
-  }
-  getSectorData = () => {
-    axios({
-        url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
-        params: {
-            apikey: process.env.REACT_APP_API_KEY_TD,
-            symbol: this.props.ticker
-        }
-    }).then(response => {
-        let ticker = this.props.ticker
-        this.setState({
-            description: response.data[ticker].description
-        })
-    })
-    .catch( e => {console.log((e));})
   }
   render() {
     const { activeIndex } = this.state

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Navbar from './Navbar'
-import { Accordion, Icon, Table, Image, Header } from 'semantic-ui-react'
+import { Accordion, Icon, Table } from 'semantic-ui-react'
 import StockPriceChart2 from './StockPriceChart2'
 import axios from 'axios'
 
@@ -61,10 +61,10 @@ class StockView extends Component {
     }
     
     componentDidMount() {
-        this.getStockData()
-        this.getData = setInterval( ()=> {
-             this.getStockData()
-          },5000)
+        // this.getStockData()
+        // this.getData = setInterval( ()=> {
+        //      this.getStockData()
+        //   },5000)
 
     }
     componentWillUnmount() {
@@ -73,13 +73,14 @@ class StockView extends Component {
     }
     render() {
         const { activeIndex } = this.state
-        let netChange = this.state.netChange;
-        let description = this.state.data.description
-        let lastPrice = this.state.data.lastPrice
-        let openPrice = this.state.data.openPrice
-        let totalVolume = this.state.data.totalVolume
-        let weekHigh = this.state.data['52WkHigh']
-        let weekLow = this.state.data['52WkLow']
+        let currentStock = this.props.currentStockData.symbol
+        let netChange = this.props.currentStockChange;
+        let description = this.props.currentStockData.description
+        let lastPrice = this.props.currentStockData.lastPrice
+        let openPrice = this.props.currentStockData.openPrice
+        let totalVolume = this.props.currentStockData.totalVolume
+        let weekHigh = this.props.currentStockData['52WkHigh']
+        let weekLow = this.props.currentStockData['52WkLow']
       
         return(
             <>
@@ -98,9 +99,11 @@ class StockView extends Component {
                 toggleStat={this.props.toggleStat}
                 showPoints={this.props.showPoints}
                 getStockData={this.getStockData}
-                getStockHistory={this.getIndiceData}/>
-            <h1 style={{textAlign: 'center'}}>{this.state.symbol}</h1>
-            <StockPriceChart2 currentStock={this.props.currentStock} time={this.state.time} price={this.state.price}/>
+                getStockHistory={this.getIndiceData}
+                getCurrentStockData={this.props.getCurrentStockData}
+                getCurrentStockHistory={this.props.getCurrentStockHistory}/>
+            <h1 style={{textAlign: 'center'}}>{currentStock}</h1>
+            <StockPriceChart2 currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
             <Accordion styled fluid>
                 <Accordion.Title
                 active={activeIndex === 0}
@@ -108,7 +111,7 @@ class StockView extends Component {
                 onClick={this.handleClick}
                 >
                 <Icon name='dropdown' />
-                {this.state.symbol} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
+                {currentStock} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 0}>
                 <Table basic='very' celled collapsing>

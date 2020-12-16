@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Statistic, Icon } from 'semantic-ui-react'
-import axios from 'axios'
 import StockPriceChart from './StockPriceChart'
 
 class Indexheading extends Component {        

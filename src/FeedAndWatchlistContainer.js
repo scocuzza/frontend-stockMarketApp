@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Divider, Input, Segment } from 'semantic-ui-react'
+import { Divider } from 'semantic-ui-react'
 import WatchlistContainer from './WatchlistContainer'
 import Feed from './Feed'
 

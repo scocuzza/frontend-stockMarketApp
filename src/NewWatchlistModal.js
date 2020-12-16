@@ -3,7 +3,7 @@ import { Modal, Form, Button, Label, Header } from 'semantic-ui-react';
 
 class NewWatchlistModal extends Component {
     render() {
-        let isLoggedIn = Object.keys(this.props.currentUser).length != 0
+        let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
         return(
             <Modal open={this.props.open}>
             <Header>Create New Watchlist</Header>

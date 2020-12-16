@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Icon, Form } from 'semantic-ui-react'
+import { Menu, Icon } from 'semantic-ui-react'
 import ToggleSlide from './ToggleSlide';
 
 class Navbar extends Component {
@@ -12,7 +12,7 @@ class Navbar extends Component {
     
     render() {
       const { activeItem } = this.state
-      let isLoggedIn = Object.keys(this.props.currentUser).length != 0
+      let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
       return (
         <Menu stackable>
           <Menu.Item>
@@ -69,7 +69,12 @@ class Navbar extends Component {
                   type='text'
                   placeholder='Search stock...'
                   />
-                  <Link to="/details" onClick={this.props.getStockData,this.props.getStockHistory}>
+                  {/* <Link to="/details" onClick={this.props.getStockData,this.props.getStockHistory, this.props.getCurrentStockData}> */}
+                  <Link to="/details" 
+                                      onClick={() => {
+                                        this.props.getCurrentStockData()
+                                        this.props.getCurrentStockHistory()
+                                      }}>
                     <i className='search link icon' />
                   </Link>
               </div>

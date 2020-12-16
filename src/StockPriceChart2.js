@@ -16,61 +16,44 @@ class StockPriceChart2 extends Component {
                 },
                 xaxis: {
                 type: 'datetime',
-                categories: []
                 }
             },
             series: [
                 {
                 name: "Index Price",
-                data: []
                 }
             ]
             };
         }
-        getIndiceData = () => {
-            console.log('getting history data');
-            axios({
-                url: `https://api.tdameritrade.com/v1/marketdata/${this.props.currentStock.toUpperCase()}/pricehistory`,
-                params: {
-                    apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
-                    periodType: 'ytd',
-                    period: '1',
-                    frequencyType: 'daily',
-                    frequency: '1'
-                }
-            }).then(response => {
-                const timedata = response.data.candles.map(element => {
-                    return element.datetime
-                });
-                const pricedata = response.data.candles.map(element => {
-                    return Math.round(element.close, 0)
-                })
+        componentDidMount = () => {
+            this.updateChart = setInterval(()=> {
                 this.setState({
                     options: {
                         chart: {
-                            id: "basic-bar",
-                            type: 'area'
+                        id: "basic-bar",
+                        type: 'area'
                         },
                         dataLabels: {
                             enabled: false
                         },
                         xaxis: {
-                            type: 'datetime',
-                            categories: timedata
+                        type: 'datetime',
+                        categories: this.props.time
                         }
-                        },
-                        series: [
+                    },
+                    series: [
                         {
-                            name: "Index Price",
-                            data: pricedata
+                        name: "Index Price",
+                        data: this.props.price
                         }
-                        ]
-                    })
-            })
-            .catch( e => {console.log((e));})
+                    ]
+                });
+            }, 2000)
+           
         }
-        componentDidMount = () => {
-                this.getIndiceData()
+        componentWillUnmount = () => {
+            clearInterval(this.updateChart)
+            this.updateChart = null
         }
       render() {
         return (
