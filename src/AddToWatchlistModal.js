@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import { Modal, Form, Button, Header, Dropdown } from 'semantic-ui-react';
 
-class NewWatchlistModal extends Component {
+class AddToWatchlistModal extends Component {
     
     render() {
+        const options = this.props.watchlistOptions.map(option => {
+            return <option value={option.value}>{option.text}</option>
+        })
         return(
             <Modal open={this.props.open}>
             <Header>Add Stock to Watchlist</Header>
             <Modal.Content>
-                <Form onSubmit={this.props.createWatchlist}>
-                <Dropdown placeholder="select watchlist.." fluid search selection options={this.props.watchlistOptions} ></Dropdown>
+                <Form>
+                {/* <Dropdown onChange={this.props.handleNewStockChange} placeholder="Select Watchlist.." fluid selection options={this.props.watchlistOptions} ></Dropdown> */}
+                <select onChange={this.props.handleNewStockChange} placeholder="Select Watchlist..">
+                    <option selected> </option>
+                    {options}
+                </select>
                 <Modal.Actions>
                     <Button color="blue" type="submit">
                     Add
@@ -25,4 +32,4 @@ class NewWatchlistModal extends Component {
     }
 }
 
-export default NewWatchlistModal;
+export default AddToWatchlistModal;

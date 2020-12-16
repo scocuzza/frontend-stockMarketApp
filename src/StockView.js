@@ -139,7 +139,8 @@ class StockView extends Component {
             </Accordion>
             <AddToWatchlistModal  open={this.props.openAddStock}
                                   watchlistOptions={this.props.watchlistOptions}
-                                  close={this.props.closeModal}/>
+                                  close={this.props.closeModal}
+                                  handleNewStockChange={this.props.handleNewStockChange}/>
             </>
         )
     }

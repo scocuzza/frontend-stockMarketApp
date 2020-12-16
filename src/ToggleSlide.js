@@ -6,7 +6,7 @@ class ToggleSlide extends Component{
         let showPoints = this.props.showPoints
         return(
             <>
-            {showPoints ? <Checkbox label="Show Points" toggle checked={this.props.showPoints} onChange={this.props.toggleStat}/> :  <Checkbox label="Show Percent" toggle checked={this.props.showPoints} onChange={this.props.toggleStat}/>}
+            {showPoints ? <Checkbox label="Show Percent" toggle checked={this.props.showPoints} onChange={this.props.toggleStat}/> :  <Checkbox label="Show Points" toggle checked={this.props.showPoints} onChange={this.props.toggleStat}/>}
             </>
         )
     }

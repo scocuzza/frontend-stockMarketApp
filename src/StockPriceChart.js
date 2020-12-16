@@ -10,6 +10,7 @@ class StockPriceChart extends Component {
               chart: {
                 type: 'area',
               },
+              colors: ['5BE429'],
               dataLabels: {
                   enabled: false
               },
@@ -50,9 +51,9 @@ class StockPriceChart extends Component {
                     options: {
                         chart: {
                           id: "basic-bar",
-                          type: 'area'
+                          type: 'area',
                         },
-
+                        colors: ['#5BE429'],
                         xaxis: {
                           type: 'datetime',
                           categories: timedata

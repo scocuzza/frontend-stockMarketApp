@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Chart from "react-apexcharts"
-import axios from 'axios'
 
 class StockPriceChart2 extends Component {
     constructor(props) {
@@ -11,6 +10,7 @@ class StockPriceChart2 extends Component {
                 id: "basic-bar",
                 type: 'area'
                 },
+                colors: ['#5BE429'],
                 dataLabels: {
                     enabled: false
                 },
@@ -33,6 +33,7 @@ class StockPriceChart2 extends Component {
                         id: "basic-bar",
                         type: 'area'
                         },
+                        colors: ['#5BE429'],
                         dataLabels: {
                             enabled: false
                         },

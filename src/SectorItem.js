@@ -20,8 +20,6 @@ class SectorItem extends Component {
   }
   render() {
     const { activeIndex } = this.state
-    let isPositive;
-    this.state.netChange >= 0 ? isPositive = true : isPositive = false
     return (
         <>
         <Accordion.Title
@@ -30,7 +28,7 @@ class SectorItem extends Component {
           onClick={this.handleClick}
         >
           <Icon name='dropdown' />
-            {this.props.name} <span style={ isPositive ? {color:'green'} : {color:'red'}}>  {isPositive ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.change} {this.props.showPoints ? null : '%'}</span>
+            {this.props.name} <span style={ this.props.change >= 0 ? {color:'green'} : {color:'red'}}>  {this.props.change >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.change} {this.props.showPoints ? null : '%'}</span>
         </Accordion.Title>
         
         <Accordion.Content active={activeIndex === this.props.index}>

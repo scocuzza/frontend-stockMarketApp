@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 import Home from './Home'
 import StockView from './StockView';
+import WatchlistView from './WatchlistView'
 
 class App extends Component {
   constructor(props) {
@@ -24,11 +25,16 @@ class App extends Component {
       watchlist_id: '',
       watchlistname: ''
     },
+    newStock: {
+      stock: '',
+      watchlist_id: '',
+      user_id: ''
+    },
     currentUser: {},
     userWatchlists: [],
     currentStock: '',
     currentStockData: [],
-    showPoints: true
+    showPoints: false
   }
   }
   //Methods to Open Models
@@ -56,14 +62,32 @@ class App extends Component {
       showAddStockToWatchlistModal: true,
     });
   }
-
+  addStockToWatchlist = async () => {
+    try {
+      const newStockResponse = await axios.post(
+        process.env.REACT_APP_FLASK_API_URL  + '/stocks/create',
+        this.state.newStock
+      );
+        this.setState({
+          newStock: {
+            stock: '',
+            watchlist_id: '',
+            user_id: ''
+          }
+        })
+      console.log(newStockResponse, ' new Stock');
+    } catch (err) {
+      console.log(err);
+    }
+  }
+ //create the watchlist options for the user when they go to add a stock
   createWatchlistOptions = () => {
     let watchlistOptions = []
     if (this.state.userWatchlists != []) {
         this.state.userWatchlists.forEach(element => {
             let option = {
                 key: element.watchlistname,
-                value: element.watchlistname,
+                value: element.id,
                 text: element.watchlistname
             }
             watchlistOptions.push(option)
@@ -89,6 +113,18 @@ class App extends Component {
         username: this.state.currentUser.user.username,
         watchlist_id: this.state.currentUser.user.id,
         watchlistname: e.currentTarget.value
+      }
+    })
+  }
+  //Set the state for the new stock
+  handleNewStockChange = (e) => {
+    console.log('hadnling new stock');
+    console.log(e.currentTarget);
+    this.setState({
+      newStock: {
+        stock: this.state.currentStock.toUpperCase(),
+        watchlist_id: e.currentTarget.value,
+        user_id: this.state.currentUser.user.id
       }
     })
   }
@@ -390,13 +426,11 @@ class App extends Component {
         this.getIndiceData()
     },5000)
   }
-
   componentWillUnmount() {
       clearInterval(this.getWatchlists)
       clearInterval(this.getIndexData)
       this.getWatchlists = null
       this.getIndexData = null
-    
   }
   render(){
     return(
@@ -463,7 +497,24 @@ class App extends Component {
                             openAddStockToWatchlistModal={this.openAddStockToWatchlistModal}
                             handleSelectedWatchlist={this.handleSelectedWatchlist}
                             watchlistOptions={this.state.watchlistOptions}
+                            
+                            handleNewStockChange={this.handleNewStockChange}
+                            addStockToWatchlist={this.addStockToWatchlist}
                             />
+          }}/>
+          <Route exact path="/watchlist" render={(props)=>{
+            return <WatchlistView currentUser={this.state.currentUser}
+                            currentStock={this.state.currentStock}
+                            currentStockData={this.state.currentStockData}
+                            currentStockChange={this.state.currentStockChange}
+                            currentStockHistory={this.state.currentStockHistory}
+                            currentStockHistoryPrice={this.state.currentStockHistoryPrice}
+                            currentStockHistoryTime={this.state.currentStockHistoryTime}
+                            handleStockSearch={this.handleStockSearch}
+                            showPoints={this.state.showPoints}
+                            toggleStat={this.toggleStat}
+                            getCurrentStockData={this.getCurrentStockData}
+                            getCurrentStockHistory={this.getCurrentStockHistory}/>
           }}/>
       </BrowserRouter>
     </div>

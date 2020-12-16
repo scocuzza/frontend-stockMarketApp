@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Segment, Button } from 'semantic-ui-react'
 
 class WatchlistContainer extends Component {
   render() {
     let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
     const watchlists = this.props.userWatchlists.map(watchlist => {
-        return (<p>{watchlist.watchlistname} {watchlist.created_at}</p>)})
+        return ( <><Link to ="/watchlist">{watchlist.watchlistname}</Link><p>{watchlist.created_at}</p></>)})
     return (
         <Segment style={{overflow: 'auto', height: 152, maxHeight: 152 }}>
                 <h2>Watchlists {isLoggedIn ? <Button onClick={this.props.openWatchlistModal} compact>+</Button> : null} </h2>
