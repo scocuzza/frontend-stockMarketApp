@@ -4,15 +4,33 @@ import StockPriceChart2 from './StockPriceChart2'
 import Navbar from './Navbar'
 
 class WatchlistView extends Component {
-
+    constructor(props){
+        super(props)
+        this.state = {
+            data: null
+        }
+    }
     
-    componentDidMount = () => {
+    componentDidMount () {
+        this.loadData()
+        this.refreshStockData = setInterval(()=>{
+            this.props.getWatchlistStockData()
+        }, 5000) 
+    }
+    componentWillUnmount() {
+        clearInterval(this.refreshStockData)
+        this.refreshStockData = null
+    }
+    loadData() {
         this.props.getWatchlistStockData()
+        this.setState({
+            data: 'loaded'
+        })
     }
     render(){
-        const stocks = this.props.retrievedStocks.map(item=>{ 
-            return <p>{item}</p>
-        })
+        if(!this.state.data) {
+            return <p> Loading </p>
+        }
         return(
            <>
             <Navbar showNewUserModal={this.props.showNewUserModal}
@@ -36,8 +54,8 @@ class WatchlistView extends Component {
            <Grid centered columns={2}>
                <Grid.Row>   
                 <Grid.Column>
-                <Segment style={{overflow: 'auto', height: 600, maxHeight: 600, width: 100 }}>
-                    {stocks}
+                <Segment style={{overflow: 'auto', height: 600, maxHeight: 600, width: 120 }}>
+                    {this.props.watchlistStockData[0].name} {this.props.watchlistStockData[0].netChange}
                 </Segment>
                 </Grid.Column>
                 <Grid.Column>

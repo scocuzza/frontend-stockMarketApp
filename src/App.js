@@ -113,7 +113,7 @@ class App extends Component {
       );
       console.log(newStockResponse, ' new Stock');
       const response = newStockResponse.data.data
-      let stockArray = response.map(item => {
+      let stockArray = response.map(item =>{
         return item.stock
       })
       console.log(stockArray);
@@ -143,6 +143,7 @@ class App extends Component {
     })
     console.log(this.state.selectedWatchlist);
     await this.getWatchlistStocks()
+    await this.getWatchlistStockData()
   }
   //Set the state for the new watchlist 
   handleNewWatchlistChange = (e) => {
@@ -458,18 +459,38 @@ class App extends Component {
   }
   //Get data for the stocks in the watchlist
   getWatchlistStockData = async () => {
-    console.log('getting stock data');
-    console.log((this.state.retrievedStocks));
     await axios({
         url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
         params: {
             apikey: process.env.REACT_APP_API_KEY_TD,
-            symbol: this.state.retrievedStocks
+            symbol: this.state.retrievedStocks.join()
         }
     }).then(response => {
-        this.setState({
-            watchlistStockData: response.data
-        })
+        let data = response.data
+        let stockObj = []
+        for (const [key, value] of Object.entries(data)) {
+          if (this.state.showPoints) {
+            let stockItem = {
+              name: key,
+              netChange: value.netChange.toFixed(2),
+              lastPrice: value.lastPrice,
+              openPrice: value.openPrice
+            }
+            stockObj.push(stockItem)
+          }else {
+            let stockItem = {
+              name: key,
+              netChange: ((value.netChange / value.openPrice) * 100).toFixed(2),
+              lastPrice: value.lastPrice,
+              openPrice: value.openPrice
+            }
+            stockObj.push(stockItem)
+          }
+          this.setState({
+            watchlistStockData: stockObj
+          })
+          }
+          console.log(stockObj);
     })
     .catch( e => {console.log((e));})
   }
@@ -580,6 +601,7 @@ class App extends Component {
                             getCurrentStockHistory={this.getCurrentStockHistory}
                             retrievedStocks={this.state.retrievedStocks}
                             getWatchlistStockData={this.getWatchlistStockData}
+                            watchlistStockData={this.state.watchlistStockData}
                             />
           }}/>
       </BrowserRouter>
