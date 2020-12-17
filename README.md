@@ -39,3 +39,8 @@ TD Ameritrade Developer API
 12. As a User, I want to be able to search an individual stock and see a chart as well as details for the stock
 13. As a User, I want to be able to search additional stock from the same page and have it update
 14. As a User, I want to be able to create a watchlist after registering/logging in
+
+# Screenshot
+![](/Project_4_Screenshot)
+# WireFrame
+![](/Project_4_Wireframe)
