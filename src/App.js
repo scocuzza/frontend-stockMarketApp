@@ -41,6 +41,7 @@ class App extends Component {
     retrievedStocks: [],
     watchlistStockData: [],
     currentWatchlistStock: 'AAPL',
+    watchlistStockData2: [],
     watchlistStockHistoryPrice: [],
     watchlistStockHistoryTime: [],
     showPoints: false
@@ -647,7 +648,8 @@ class App extends Component {
                             watchlistStockHistoryTime={this.state.watchlistStockHistoryTime}
                             currentWatchlistStock={this.state.currentWatchlistStock}
                             setCurrentWatchlistStock={this.setCurrentWatchlistStock}
-                            createWatchlistOptions={this.createWatchlistOptions}/>
+                            createWatchlistOptions={this.createWatchlistOptions}
+                            watchlistStockData2={this.state.watchlistStockData2}/>
           }}/>
       </BrowserRouter>
     </div>
