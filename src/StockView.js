@@ -73,94 +73,98 @@ class StockView extends Component {
     }
     render() {
         const { activeIndex } = this.state
-        let currentStock = this.props.currentStockData.symbol
-        let netChange = this.props.currentStockChange;
-        let description = this.props.currentStockData.description
-        let assetType = this.props.currentStockData.assetType
-        let lastPrice = this.props.currentStockData.lastPrice
-        let openPrice = this.props.currentStockData.openPrice
-        let highPrice = this.props.currentStockData.highPrice
-        let totalVolume = this.props.currentStockData.totalVolume
-        let weekHigh = this.props.currentStockData['52WkHigh']
-        let weekLow = this.props.currentStockData['52WkLow']
-        let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
-        return(
-            <>
-            <Navbar showNewUserModal={this.props.showNewUserModal}
-                showLoginUserModal={this.props.showLoginUserModal}
-                newUser={this.props.newUser}
-                currentUser={this.props.currentUser}
-                handleNewUserChange={this.props.handleNewUserChange}
-                handleStockSearch={this.props.handleStockSearch}
-                closeModal={this.props.closeModal}
-                closeAndCreate={this.props.closeAndCreate}
-                closeAndLogin={this.props.closeAndLogin}
-                openNewUserModal={this.props.openNewUserModal}
-                openLoginUserModal={this.props.openLoginUserModal}
-                logout={this.props.logout}
-                toggleStat={this.props.toggleStat}
-                showPoints={this.props.showPoints}
-                getStockData={this.getStockData}
-                getStockHistory={this.getIndiceData}
-                getCurrentStockData={this.props.getCurrentStockData}
-                getCurrentStockHistory={this.props.getCurrentStockHistory}
-                createWatchlistOptions={this.props.createWatchlistOptions}/>
-            <h1 style={{textAlign: 'center'}}>{currentStock} {isLoggedIn ? 
-            <Button animated='fade' onClick={this.props.openAddStockToWatchlistModal}> 
-                 <Button.Content hidden>
-                    Click to Add
-                </Button.Content>
-                <Button.Content visible>
-                    Add to Watchlist
-                </Button.Content>
-            </Button> 
-            : null}</h1> 
-            <StockPriceChart2 width='50%' currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
-            <Accordion styled fluid>
-                <Accordion.Title
-                active={activeIndex === 0}
-                index={0}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                {currentStock} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 0}>
-                <Table basic='very' celled collapsing>
-                    <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Description</Table.HeaderCell>
-                        <Table.HeaderCell>Asset Type</Table.HeaderCell>
-                        <Table.HeaderCell>Open Price</Table.HeaderCell>
-                        <Table.HeaderCell>Last Price</Table.HeaderCell>
-                        <Table.HeaderCell>High Price</Table.HeaderCell>
-                        <Table.HeaderCell>Total Volume</Table.HeaderCell>
-                        <Table.HeaderCell>52WkHigh</Table.HeaderCell>
-                        <Table.HeaderCell>52WkLow</Table.HeaderCell>
-                    </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                    <Table.Row>
-                        <Table.Cell>{description}</Table.Cell>
-                        <Table.Cell>{assetType}</Table.Cell>
-                        <Table.Cell>{lastPrice}</Table.Cell>
-                        <Table.Cell>{highPrice}</Table.Cell>
-                        <Table.Cell>{openPrice}</Table.Cell>
-                        <Table.Cell>{totalVolume}</Table.Cell>
-                        <Table.Cell>{weekLow}</Table.Cell>
-                        <Table.Cell>{weekHigh}</Table.Cell>
-                    </Table.Row>
-                    </Table.Body>
-                </Table>
-                </Accordion.Content>
-            </Accordion>
-            <AddToWatchlistModal  open={this.props.openAddStock}
-                                  watchlistOptions={this.props.watchlistOptions}
-                                  close={this.props.closeModal}
-                                  handleNewStockChange={this.props.handleNewStockChange}
-                                  addStockToWatchlist={this.props.addStockToWatchlist}/>
-            </>
-        )
+        if(this.props.currentStockData != undefined ) {
+            let currentStock = this.props.currentStockData.symbol
+            let netChange = this.props.currentStockChange;
+            let description = this.props.currentStockData.description
+            let assetType = this.props.currentStockData.assetType
+            let lastPrice = this.props.currentStockData.lastPrice
+            let openPrice = this.props.currentStockData.openPrice
+            let highPrice = this.props.currentStockData.highPrice
+            let totalVolume = this.props.currentStockData.totalVolume
+            let weekHigh = this.props.currentStockData['52WkHigh']
+            let weekLow = this.props.currentStockData['52WkLow']
+            let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
+            return(
+                <>
+                <Navbar showNewUserModal={this.props.showNewUserModal}
+                    showLoginUserModal={this.props.showLoginUserModal}
+                    newUser={this.props.newUser}
+                    currentUser={this.props.currentUser}
+                    handleNewUserChange={this.props.handleNewUserChange}
+                    handleStockSearch={this.props.handleStockSearch}
+                    closeModal={this.props.closeModal}
+                    closeAndCreate={this.props.closeAndCreate}
+                    closeAndLogin={this.props.closeAndLogin}
+                    openNewUserModal={this.props.openNewUserModal}
+                    openLoginUserModal={this.props.openLoginUserModal}
+                    logout={this.props.logout}
+                    toggleStat={this.props.toggleStat}
+                    showPoints={this.props.showPoints}
+                    getStockData={this.getStockData}
+                    getStockHistory={this.getIndiceData}
+                    getCurrentStockData={this.props.getCurrentStockData}
+                    getCurrentStockHistory={this.props.getCurrentStockHistory}
+                    createWatchlistOptions={this.props.createWatchlistOptions}/>
+                <h1 style={{textAlign: 'center'}}>{currentStock} {isLoggedIn ? 
+                <Button animated='fade' onClick={this.props.openAddStockToWatchlistModal}> 
+                     <Button.Content hidden>
+                        Click to Add
+                    </Button.Content>
+                    <Button.Content visible>
+                        Add to Watchlist
+                    </Button.Content>
+                </Button> 
+                : null}</h1> 
+                <StockPriceChart2 width='50%' currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
+                <Accordion styled fluid>
+                    <Accordion.Title
+                    active={activeIndex === 0}
+                    index={0}
+                    onClick={this.handleClick}
+                    >
+                    <Icon name='dropdown' />
+                    {currentStock} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 0}>
+                    <Table basic='very' celled collapsing>
+                        <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Description</Table.HeaderCell>
+                            <Table.HeaderCell>Asset Type</Table.HeaderCell>
+                            <Table.HeaderCell>Open Price</Table.HeaderCell>
+                            <Table.HeaderCell>Last Price</Table.HeaderCell>
+                            <Table.HeaderCell>High Price</Table.HeaderCell>
+                            <Table.HeaderCell>Total Volume</Table.HeaderCell>
+                            <Table.HeaderCell>52WkHigh</Table.HeaderCell>
+                            <Table.HeaderCell>52WkLow</Table.HeaderCell>
+                        </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                        <Table.Row>
+                            <Table.Cell>{description}</Table.Cell>
+                            <Table.Cell>{assetType}</Table.Cell>
+                            <Table.Cell>{lastPrice}</Table.Cell>
+                            <Table.Cell>{highPrice}</Table.Cell>
+                            <Table.Cell>{openPrice}</Table.Cell>
+                            <Table.Cell>{totalVolume}</Table.Cell>
+                            <Table.Cell>{weekLow}</Table.Cell>
+                            <Table.Cell>{weekHigh}</Table.Cell>
+                        </Table.Row>
+                        </Table.Body>
+                    </Table>
+                    </Accordion.Content>
+                </Accordion>
+                <AddToWatchlistModal  open={this.props.openAddStock}
+                                      watchlistOptions={this.props.watchlistOptions}
+                                      close={this.props.closeModal}
+                                      handleNewStockChange={this.props.handleNewStockChange}
+                                      addStockToWatchlist={this.props.addStockToWatchlist}/>
+                </>
+            )
+        } else {
+            return(<h1 style={{textAlign: 'center'}}>Invalid Stock was entered</h1>)
+        }
     }
 }
 
