@@ -331,7 +331,7 @@ class App extends Component {
           realEstateChange: (this.state.realEstate.netChange).toFixed(2),
           materialsChange: (this.state.materials.netChange).toFixed(2),
           preciousMetalsChange: (this.state.preciousMetals.netChange).toFixed(2),
-          currentStockChange: (this.state.currentStockData.netChange).toFixed(2),
+          currentStockChange: (this.state.currentStockData.netChange),
           showPoints: true
       })
   }
@@ -528,7 +528,9 @@ class App extends Component {
     .catch( e => {console.log((e));})
   }
   setCurrentWatchlistStock = (e) => {
+    console.log(e.currentTarget);
     console.log(e.currentTarget.text);
+    console.log(e.currentTarget.name);
     this.setState({
       currentWatchlistStock: e.currentTarget.text
     })

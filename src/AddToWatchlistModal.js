@@ -18,7 +18,7 @@ class AddToWatchlistModal extends Component {
                     {options}
                 </select>
                 <Modal.Actions>
-                    <Button color="blue" type="submit">
+                    <Button color="green" type="submit">
                     Add
                     </Button>
                     <Button color="black" type="button" onClick={this.props.close}>

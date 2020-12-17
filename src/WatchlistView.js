@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Grid, Segment, Icon, Table, Header, Loader} from 'semantic-ui-react'
+import { Divider, Grid, Segment, Icon, Table, Header, Loader, Menu, Accordion} from 'semantic-ui-react'
 import StockPriceChart2 from './StockPriceChart2'
 import Navbar from './Navbar'
 
@@ -10,6 +10,16 @@ class WatchlistView extends Component {
             data: null
         }
     }
+    state = { activeIndex: 0 }
+
+    handleClick = (e, titleProps) => {
+      const { index } = titleProps
+      const { activeIndex } = this.state
+      const newIndex = activeIndex === index ? -1 : index
+  
+      this.setState({ activeIndex: newIndex })
+    }
+
     
     componentDidMount () {
         this.props.getWatchlistStockData().then( () => {
@@ -27,20 +37,18 @@ class WatchlistView extends Component {
     }
     render(){
         const data = this.state.data
+        const { activeIndex } = this.state
         let stocks = ''
         if(data === 'loaded') {
             let ticker = this.props.currentWatchlistStock
-            // let last = this.props.watchlistStockData2[ticker].lastPrice
-            // let open = this.props.watchlistStockData2[ticker].openPrice
-            // let high = this.props.watchlistStockData2[ticker].highPrice
-            // let low = this.props.watchlistStockData2[ticker].lowPrice
-            // console.log(this.props.watchlistStockData2[ticker].lastPrice);
             stocks = this.props.watchlistStockData.map(stock => {
                         return <>
-                        
-                        <a style={{cursor:'pointer'}}onClick={this.props.setCurrentWatchlistStock}>{stock.name}</a> 
-                        <span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {stock.netChange} {this.props.showPoints ? null : '%'}</span>
-                            <Divider />
+                            <Menu.Item
+                                name={stock.name}
+                                >
+                                <a onClick={this.props.setCurrentWatchlistStock} style={{cursor:'pointer'}}>{stock.name}</a><span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {stock.netChange} {this.props.showPoints ? null : '%'}</span>
+                            </Menu.Item>
+
                         </>
                         
                     })
@@ -68,11 +76,15 @@ class WatchlistView extends Component {
                              <Segment>
                                 <Grid columns={3} divided>
                                 <Grid.Column width={3}>
-                                    <Segment style={{overflow: 'auto', height: '100%', maxHeight: '100%', width: 160 }}>{stocks}</Segment>
+                                    {/* <Segment style={{overflow: 'auto', height: '100%', maxHeight: '100%', width: 160 }}>{stocks}</Segment> */}
+                                    <Menu vertical style={{overflow: 'auto', maxHeight: '525px'}}>
+                                        {stocks}
+                                    </Menu>
+
                                 </Grid.Column>
                                 <Grid.Column width={10}>
-                                    <h1 style={{textAlign: 'center'}}>{this.props.currentWatchlistStock}</h1>
-                                    <StockPriceChart2 width='100%' price={this.props.watchlistStockHistoryPrice} time={this.props.watchlistStockHistoryTime}/>       
+                                    <h1 style={{textAlign: 'center'}}>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].description)}</h1>
+                                    <StockPriceChart2 width='60%' price={this.props.watchlistStockHistoryPrice} time={this.props.watchlistStockHistoryTime}/>       
                                 </Grid.Column>
                                 <Grid.Column width={2}>
                                     <h3 style={{textAlign: 'center'}}>Todays Details</h3>
@@ -128,6 +140,44 @@ class WatchlistView extends Component {
                                 </Grid.Column>
                                 </Grid>
                             </Segment>
+                                <Accordion className="accordian-watchlist" styled fluid>
+                                <Accordion.Title
+                                active={activeIndex === 0}
+                                index={0}
+                                onClick={this.handleClick}
+                                >
+                                <Icon name='dropdown' />
+                                {this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].description)}
+                                </Accordion.Title>
+                                <Accordion.Content  active={activeIndex === 0}>
+                                <Table basic='very' celled collapsing>
+                                    <Table.Header>
+                                    <Table.Row>
+                                        <Table.HeaderCell>Description</Table.HeaderCell>
+                                        <Table.HeaderCell>Asset Type</Table.HeaderCell>
+                                        <Table.HeaderCell>Open Price</Table.HeaderCell>
+                                        <Table.HeaderCell>Last Price</Table.HeaderCell>
+                                        <Table.HeaderCell>High Price</Table.HeaderCell>
+                                        <Table.HeaderCell>Total Volume</Table.HeaderCell>
+                                        <Table.HeaderCell>52WkHigh</Table.HeaderCell>
+                                        <Table.HeaderCell>52WkLow</Table.HeaderCell>
+                                    </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                    <Table.Row>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].description)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].assetType)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].openPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].lastPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].highPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].totalVolume).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker]['52WkHigh']).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker]['52WkHigh']).toFixed(2)}</Table.Cell>
+                                    </Table.Row>
+                                    </Table.Body>
+                                </Table>
+                                </Accordion.Content>
+                            </Accordion>
                         </>
                      )
         } else  {

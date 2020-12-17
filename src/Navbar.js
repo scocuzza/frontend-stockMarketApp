@@ -16,7 +16,7 @@ class Navbar extends Component {
       return (
         <Menu stackable>
           <Menu.Item>
-            <Icon name='money bill alternate outline' />
+            <Icon size='big' name='money bill alternate outline' />
           </Menu.Item>
 
           <a>
@@ -24,28 +24,12 @@ class Navbar extends Component {
             name='home'
             active={activeItem === 'home'}
             onClick={this.handleItemClick}>
-              <Link to='/'>Home</Link>
+              <Link to='/'><Icon size='big' name='home' /></Link>
           </Menu.Item>
           </a>
           
-          {!isLoggedIn ? 
-          <Menu.Item
-            name='register'
-            active={activeItem === 'register'}
-            onClick={this.handleItemClick, this.props.openNewUserModal}
-          >
-            Register
-          </Menu.Item> : null
-          }
-          {!isLoggedIn ? 
-          <Menu.Item
-            name='sign-in'
-            active={activeItem === 'sign-in'}
-            onClick={this.handleItemClick, this.props.openLoginUserModal}
-          >
-            Sign-in
-          </Menu.Item> : null
-          }
+          
+          
         {isLoggedIn ? 
           <Menu.Item
             name='welcome'
@@ -61,8 +45,26 @@ class Navbar extends Component {
          <Menu.Item 
           name="toggleslide"
           > <ToggleSlide showPoints={this.props.showPoints} toggleStat={this.props.toggleStat}/></Menu.Item>
-
+            
             <Menu.Menu position='right'>
+            {!isLoggedIn ? 
+              <Menu.Item
+                name='sign-in'
+                active={activeItem === 'sign-in'}
+                onClick={this.handleItemClick, this.props.openLoginUserModal}
+              >
+                Sign-in
+              </Menu.Item> : null
+              }
+              {!isLoggedIn ? 
+                <Menu.Item
+                  name='register'
+                  active={activeItem === 'register'}
+                  onClick={this.handleItemClick, this.props.openNewUserModal}
+                >
+                  Register
+                </Menu.Item> : null
+                }
               <div className='ui right aligned category search item'>
               <div className='ui transparent icon input'>
                   <input onChange={this.props.handleStockSearch}
