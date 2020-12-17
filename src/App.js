@@ -320,18 +320,18 @@ class App extends Component {
       this.setState({
           dowChange: (this.state.dow.netChange).toFixed(2),
           nasChange: (this.state.nas.netChange).toFixed(2),
-          spChange: this.state.sp.netChange,
-          techChange: this.state.tech.netChange,
-          healthChange: this.state.health.netChange,
-          financialChange: this.state.financial.netChange,
-          communicationChange: this.state.communication.netChange,
-          industrialChange: this.state.industrial.netChange,
-          energyChange: this.state.energy.netChange,
-          utilitiesChange: this.state.utilities.netChange,
-          realEstateChange: this.state.realEstate.netChange,
-          materialsChange: this.state.materials.netChange,
-          preciousMetalsChange: this.state.preciousMetals.netChange,
-          currentStockChange: this.state.currentStockData.netChange,
+          spChange: (this.state.sp.netChange).toFixed(2),
+          techChange: (this.state.tech.netChange).toFixed(2),
+          healthChange: (this.state.health.netChange).toFixed(2),
+          financialChange: (this.state.financial.netChange).toFixed(2),
+          communicationChange: (this.state.communication.netChange).toFixed(2),
+          industrialChange: (this.state.industrial.netChange).toFixed(2),
+          energyChange: (this.state.energy.netChange).toFixed(2),
+          utilitiesChange: (this.state.utilities.netChange).toFixed(2),
+          realEstateChange: (this.state.realEstate.netChange).toFixed(2),
+          materialsChange: (this.state.materials.netChange).toFixed(2),
+          preciousMetalsChange: (this.state.preciousMetals.netChange).toFixed(2),
+          currentStockChange: (this.state.currentStockData.netChange).toFixed(2),
           showPoints: true
       })
   }
@@ -442,7 +442,7 @@ class App extends Component {
     await axios({
         url: `https://api.tdameritrade.com/v1/marketdata/${this.state.currentStock.toUpperCase()}/pricehistory`,
         params: {
-            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
+            apikey: process.env.REACT_APP_API_KEY_TD,
             periodType: 'ytd',
             period: '1',
             frequencyType: 'daily',
@@ -507,7 +507,7 @@ class App extends Component {
     await axios({
         url: `https://api.tdameritrade.com/v1/marketdata/${this.state.currentWatchlistStock.toUpperCase()}/pricehistory`,
         params: {
-            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
+            apikey: process.env.REACT_APP_API_KEY_TD,
             periodType: 'ytd',
             period: '1',
             frequencyType: 'daily',
