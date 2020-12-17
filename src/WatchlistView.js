@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Grid, Segment, Icon, Table, Header, Image} from 'semantic-ui-react'
+import { Divider, Grid, Segment, Icon, Table, Header, Loader} from 'semantic-ui-react'
 import StockPriceChart2 from './StockPriceChart2'
 import Navbar from './Navbar'
 
@@ -88,7 +88,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].lastPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].lastPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                         <Table.Cell>
@@ -99,7 +99,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].openPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].openPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                         <Table.Cell>
@@ -110,7 +110,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].highPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].highPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                         <Table.Cell>
@@ -121,7 +121,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].lowPrice).toFixed(2)}</Table.Cell>
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].lowPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
                                     </Table>

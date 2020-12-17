@@ -28,15 +28,15 @@ class Navbar extends Component {
           </Menu.Item>
           </a>
           
-
+          {!isLoggedIn ? 
           <Menu.Item
             name='register'
             active={activeItem === 'register'}
             onClick={this.handleItemClick, this.props.openNewUserModal}
           >
             Register
-          </Menu.Item>
-  
+          </Menu.Item> : null
+          }
           {!isLoggedIn ? 
           <Menu.Item
             name='sign-in'

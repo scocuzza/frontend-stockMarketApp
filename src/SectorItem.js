@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Accordion, Icon, Table } from 'semantic-ui-react'
+import { Accordion, Icon, Table, Loader } from 'semantic-ui-react'
 
 class SectorItem extends Component {
     constructor(props) {
@@ -66,14 +66,14 @@ class SectorItem extends Component {
                     </Table.Header>
                     <Table.Body>
                     <Table.Row>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.description}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.assetType}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.lastPrice}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.openPrice}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.highPrice}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.lowPrice}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data['52WkHigh']}</Table.Cell>
-                        <Table.Cell>{this.props.data == undefined ? null : this.props.data['52WkLow']}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data.description}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data.assetType}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data.lastPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data.openPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data.highPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data.lowPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data['52WkHigh']}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ?  <Loader active inline /> : this.props.data['52WkLow']}</Table.Cell>
                     </Table.Row>
                     </Table.Body>
                 </Table>
