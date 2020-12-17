@@ -23,7 +23,7 @@ const RegisterUserModal = (props) => {
           />
           <Label>Password:</Label>
           <Form.Input
-            type="text"
+            type="password"
             name="password"
             value={props.newUser.password}
             onChange={props.handleNewUserChange}

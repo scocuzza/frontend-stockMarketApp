@@ -39,6 +39,10 @@ class App extends Component {
     currentStock: '',
     currentStockData: [],
     retrievedStocks: [],
+    watchlistStockData: [],
+    currentWatchlistStock: 'AAPL',
+    watchlistStockHistoryPrice: [],
+    watchlistStockHistoryTime: [],
     showPoints: false
   }
   }
@@ -144,6 +148,7 @@ class App extends Component {
     console.log(this.state.selectedWatchlist);
     await this.getWatchlistStocks()
     await this.getWatchlistStockData()
+    await this.getWatchlistStockHistory()
   }
   //Set the state for the new watchlist 
   handleNewWatchlistChange = (e) => {
@@ -219,7 +224,6 @@ class App extends Component {
         process.env.REACT_APP_FLASK_API_URL  + '/user/register',
         this.state.newUser
       );
-
       console.log(newUserResponse, ' new User');
       this.setState({
         showNewUserModal: false,
@@ -467,6 +471,7 @@ class App extends Component {
         }
     }).then(response => {
         let data = response.data
+        console.log(data);
         let stockObj = []
         for (const [key, value] of Object.entries(data)) {
           if (this.state.showPoints) {
@@ -486,13 +491,47 @@ class App extends Component {
             }
             stockObj.push(stockItem)
           }
-          this.setState({
-            watchlistStockData: stockObj
-          })
           }
-          console.log(stockObj);
+          this.setState({
+            watchlistStockData: stockObj,
+            watchlistStockData2: response.data
+          })
+          console.log('stock data ' + stockObj);
     })
     .catch( e => {console.log((e));})
+  }
+  //getWatchlistStock history
+  getWatchlistStockHistory = async () => {
+    console.log('getting history data');
+    await axios({
+        url: `https://api.tdameritrade.com/v1/marketdata/${this.state.currentWatchlistStock.toUpperCase()}/pricehistory`,
+        params: {
+            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
+            periodType: 'ytd',
+            period: '1',
+            frequencyType: 'daily',
+            frequency: '1'
+        }
+    }).then(response => {
+        const timedata = response.data.candles.map(element => {
+            return element.datetime
+        });
+        const pricedata = response.data.candles.map(element => {
+            return Math.round(element.close, 0)
+        })
+        this.setState({
+          watchlistStockHistoryTime: timedata,
+          watchlistStockHistoryPrice: pricedata
+        })
+    })
+    .catch( e => {console.log((e));})
+  }
+  setCurrentWatchlistStock = (e) => {
+    console.log(e.currentTarget.text);
+    this.setState({
+      currentWatchlistStock: e.currentTarget.text
+    })
+    this.getWatchlistStockHistory()
   }
   componentDidMount() {
     this.getIndiceData()
@@ -581,6 +620,7 @@ class App extends Component {
                             openAddStockToWatchlistModal={this.openAddStockToWatchlistModal}
                             handleSelectedWatchlist={this.handleSelectedWatchlist}
                             watchlistOptions={this.state.watchlistOptions}
+                            createWatchlistOptions={this.createWatchlistOptions}
                             
                             handleNewStockChange={this.handleNewStockChange}
                             addStockToWatchlist={this.addStockToWatchlist}
@@ -602,7 +642,12 @@ class App extends Component {
                             retrievedStocks={this.state.retrievedStocks}
                             getWatchlistStockData={this.getWatchlistStockData}
                             watchlistStockData={this.state.watchlistStockData}
-                            />
+                            selectedWatchlist={this.state.selectedWatchlist.watchlistname}
+                            watchlistStockHistoryPrice={this.state.watchlistStockHistoryPrice}
+                            watchlistStockHistoryTime={this.state.watchlistStockHistoryTime}
+                            currentWatchlistStock={this.state.currentWatchlistStock}
+                            setCurrentWatchlistStock={this.setCurrentWatchlistStock}
+                            createWatchlistOptions={this.createWatchlistOptions}/>
           }}/>
       </BrowserRouter>
     </div>

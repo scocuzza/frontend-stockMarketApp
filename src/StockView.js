@@ -19,12 +19,13 @@ class StockView extends Component {
     state = { activeIndex: 0 }
 
     handleClick = (e, titleProps) => {
-        const { index } = titleProps
-        const { activeIndex } = this.state
-        const newIndex = activeIndex === index ? -1 : index
-
-        this.setState({ activeIndex: newIndex })
+      const { index } = titleProps
+      const { activeIndex } = this.state
+      const newIndex = activeIndex === index ? -1 : index
+  
+      this.setState({ activeIndex: newIndex })
     }
+  
 
     getStockData = () => {
         console.log('getting stock data');
@@ -62,9 +63,9 @@ class StockView extends Component {
     }
     componentDidMount() {
         // this.getStockData()
-        this.getData = setInterval( ()=> {
-             this.props.getCurrentStockData()
-          },5000)
+        // this.getData = setInterval( ()=> {
+        //      this.props.getCurrentStockData()
+        //   },5000)
     }
     componentWillUnmount() {
         clearInterval(this.getData)
@@ -75,8 +76,10 @@ class StockView extends Component {
         let currentStock = this.props.currentStockData.symbol
         let netChange = this.props.currentStockChange;
         let description = this.props.currentStockData.description
+        let assetType = this.props.currentStockData.assetType
         let lastPrice = this.props.currentStockData.lastPrice
         let openPrice = this.props.currentStockData.openPrice
+        let highPrice = this.props.currentStockData.highPrice
         let totalVolume = this.props.currentStockData.totalVolume
         let weekHigh = this.props.currentStockData['52WkHigh']
         let weekLow = this.props.currentStockData['52WkLow']
@@ -100,9 +103,19 @@ class StockView extends Component {
                 getStockData={this.getStockData}
                 getStockHistory={this.getIndiceData}
                 getCurrentStockData={this.props.getCurrentStockData}
-                getCurrentStockHistory={this.props.getCurrentStockHistory}/>
-            <h1 style={{textAlign: 'center'}}>{currentStock} {isLoggedIn ? <Button  onClick={this.props.openAddStockToWatchlistModal}>+</Button> : null}</h1> 
-            <StockPriceChart2 currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
+                getCurrentStockHistory={this.props.getCurrentStockHistory}
+                createWatchlistOptions={this.props.createWatchlistOptions}/>
+            <h1 style={{textAlign: 'center'}}>{currentStock} {isLoggedIn ? 
+            <Button animated='fade' onClick={this.props.openAddStockToWatchlistModal}> 
+                 <Button.Content hidden>
+                    Click to Add
+                </Button.Content>
+                <Button.Content visible>
+                    Add to Watchlist
+                </Button.Content>
+            </Button> 
+            : null}</h1> 
+            <StockPriceChart2 width='60%' currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
             <Accordion styled fluid>
                 <Accordion.Title
                 active={activeIndex === 0}
@@ -117,8 +130,10 @@ class StockView extends Component {
                     <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Description</Table.HeaderCell>
+                        <Table.HeaderCell>Asset Type</Table.HeaderCell>
                         <Table.HeaderCell>Open Price</Table.HeaderCell>
                         <Table.HeaderCell>Last Price</Table.HeaderCell>
+                        <Table.HeaderCell>High Price</Table.HeaderCell>
                         <Table.HeaderCell>Total Volume</Table.HeaderCell>
                         <Table.HeaderCell>52WkHigh</Table.HeaderCell>
                         <Table.HeaderCell>52WkLow</Table.HeaderCell>
@@ -127,8 +142,10 @@ class StockView extends Component {
                     <Table.Body>
                     <Table.Row>
                         <Table.Cell>{description}</Table.Cell>
-                        <Table.Cell>{openPrice}</Table.Cell>
+                        <Table.Cell>{assetType}</Table.Cell>
                         <Table.Cell>{lastPrice}</Table.Cell>
+                        <Table.Cell>{highPrice}</Table.Cell>
+                        <Table.Cell>{openPrice}</Table.Cell>
                         <Table.Cell>{totalVolume}</Table.Cell>
                         <Table.Cell>{weekLow}</Table.Cell>
                         <Table.Cell>{weekHigh}</Table.Cell>

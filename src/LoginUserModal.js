@@ -16,8 +16,8 @@ const LoginUserModal = (props) => {
           />
           <Label>Password:</Label>
           <Form.Input
-            type="text"
             name="password"
+            type="password"
             value={props.newUser.password}
             onChange={props.handleNewUserChange}
           />

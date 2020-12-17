@@ -61,7 +61,7 @@ class StockPriceChart2 extends Component {
                 <Chart className="chart"
                   options={this.state.options}
                   series={this.state.series}
-                  width="60%"
+                  width={this.props.width}
                   type='area'
                 />
         );

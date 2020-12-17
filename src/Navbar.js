@@ -19,18 +19,20 @@ class Navbar extends Component {
             <Icon name='money bill alternate outline' />
           </Menu.Item>
 
-          
+          <a>
           <Menu.Item
             name='home'
             active={activeItem === 'home'}
             onClick={this.handleItemClick}>
               <Link to='/'>Home</Link>
           </Menu.Item>
+          </a>
+          
 
           <Menu.Item
             name='register'
             active={activeItem === 'register'}
-            onClick={this.handleItemClick, this.props.openLoginUserModal}
+            onClick={this.handleItemClick, this.props.openNewUserModal}
           >
             Register
           </Menu.Item>
@@ -64,7 +66,6 @@ class Navbar extends Component {
               <div className='ui right aligned category search item'>
               <div className='ui transparent icon input'>
                   <input onChange={this.props.handleStockSearch}
-
                   className='prompt'
                   type='text'
                   placeholder='Search stock...'

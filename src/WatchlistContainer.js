@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Button } from 'semantic-ui-react'
+import { Segment, Button, Icon } from 'semantic-ui-react'
 
 class WatchlistContainer extends Component {
   render() {
@@ -9,7 +9,7 @@ class WatchlistContainer extends Component {
         return ( <><Link to ="/watchlist" onClick={this.props.handleCurrentWatchlist}>{watchlist.watchlistname}</Link><p>{watchlist.created_at}</p></>)})
     return (
         <Segment style={{overflow: 'auto', height: 152, maxHeight: 152 }}>
-                <h2>Watchlists {isLoggedIn ? <Button onClick={this.props.openWatchlistModal} compact>+</Button> : null} </h2>
+                <h2>Watchlists {isLoggedIn ? <Button onClick={this.props.openWatchlistModal} compact> <Button.Content><Icon name="add"/></Button.Content> </Button> : null} </h2>
                 {!isLoggedIn ? 
                 <>
                     <p> Don't see any Watchlists?</p>
