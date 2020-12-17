@@ -115,7 +115,7 @@ class StockView extends Component {
                 </Button.Content>
             </Button> 
             : null}</h1> 
-            <StockPriceChart2 width='60%' currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
+            <StockPriceChart2 width='50%' currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
             <Accordion styled fluid>
                 <Accordion.Title
                 active={activeIndex === 0}

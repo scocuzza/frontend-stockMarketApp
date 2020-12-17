@@ -30,7 +30,18 @@ class GridContainer extends Component{
            utilitiesLast={this.props.utilitiesLast}
            realEstateLast={this.props.realEstateLast}
            materialsLast={this.props.materialsLast}
-           preciousMetalsLast={this.props.preciousMetalsLast}/>
+           preciousMetalsLast={this.props.preciousMetalsLast}
+           
+           tech={this.props.tech}
+           health={this.props.health} 
+           financial={this.props.financial}
+           communication={this.props.communication}
+           industrial={this.props.industrial}
+           energy={this.props.energy}
+           utilities={this.props.utilities}
+           realEstate={this.props.realEstate}
+           materials={this.props.materials}
+           preciousMetals={this.props.preciousMetals}/>
         </Grid.Column>
         <Grid.Column>
           <FeedAndWatchlistContainer 

@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
-import { Accordion, Icon } from 'semantic-ui-react'
+import { Accordion, Icon, Table } from 'semantic-ui-react'
 
 class SectorItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
             netChange: 0,
-            description: ''
+            description: '',
+            assetType: '',
+            last: '',
+            open: '',
+            high: '',
+            low: '',
+            weekHigh: '',
+            weekLow: '',
         }
     }
   state = { activeIndex: 0 }
@@ -18,8 +25,18 @@ class SectorItem extends Component {
 
     this.setState({ activeIndex: newIndex })
   }
+  componentDidMount() {
+  }
   render() {
     const { activeIndex } = this.state
+    // let description = this.props.data.description
+    // let assetType = this.props.data.assetType
+    // let last = this.props.data.lastPrice
+    // let open = this.props.data.openPrice
+    // let high = this.props.data.highPrice
+    // let low = this.props.data.lowPrice
+    // let weekHigh = this.props.data['52WkHigh']
+    // let weekLow = this.props.data['52WkLow']
     return (
         <>
         <Accordion.Title
@@ -33,7 +50,33 @@ class SectorItem extends Component {
         
         <Accordion.Content active={activeIndex === this.props.index}>
           <p>
-            {this.state.description}
+            {/* {description} */}
+            <Table basic='very' celled collapsing size='small'>
+                    <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Description</Table.HeaderCell>
+                        <Table.HeaderCell>Asset Type</Table.HeaderCell>
+                        <Table.HeaderCell>Last Price</Table.HeaderCell>
+                        <Table.HeaderCell>Open Price</Table.HeaderCell>
+                        <Table.HeaderCell>High Price</Table.HeaderCell>
+                        <Table.HeaderCell>Low Price</Table.HeaderCell>
+                        <Table.HeaderCell>52WkHigh</Table.HeaderCell>
+                        <Table.HeaderCell>52WkLow</Table.HeaderCell>
+                    </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                    <Table.Row>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.description}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.assetType}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.lastPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.openPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.highPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data.lowPrice}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data['52WkHigh']}</Table.Cell>
+                        <Table.Cell>{this.props.data == undefined ? null : this.props.data['52WkLow']}</Table.Cell>
+                    </Table.Row>
+                    </Table.Body>
+                </Table>
           </p>
         </Accordion.Content>
         </>

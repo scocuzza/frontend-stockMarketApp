@@ -596,6 +596,18 @@ class App extends Component {
                         realEstateChange={this.state.realEstateChange}
                         materialsChange={this.state.materialsChange}
                         preciousMetalsChange={this.state.preciousMetalsChange}
+                        //
+                        tech={this.state.tech}
+                        health={this.state.health} 
+                        financial={this.state.financial}
+                        communication={this.state.communication}
+                        industrial={this.state.industrial}
+                        energy={this.state.energy}
+                        utilities={this.state.utilities}
+                        realEstate={this.state.realEstate}
+                        materials={this.state.materials}
+                        preciousMetals={this.state.preciousMetals}
+
                         getCurrentStockData={this.getCurrentStockData}
                         getCurrentStockHistory={this.getCurrentStockHistory}
                         createWatchlistOptions={this.createWatchlistOptions}

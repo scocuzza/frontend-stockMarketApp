@@ -62,7 +62,18 @@ class Home extends Component {
                 materialsChange={this.props.materialsChange}
                 preciousMetalsChange={this.props.preciousMetalsChange}
                 handleCurrentWatchlist={this.props.handleCurrentWatchlist}
-                getWatchlistStocks={this.props.getWatchlistStocks}/>
+                getWatchlistStocks={this.props.getWatchlistStocks}
+                
+                tech={this.props.tech}
+                health={this.props.health} 
+                financial={this.props.financial}
+                communication={this.props.communication}
+                industrial={this.props.industrial}
+                energy={this.props.energy}
+                utilities={this.props.utilities}
+                realEstate={this.props.realEstate}
+                materials={this.props.materials}
+                preciousMetals={this.props.preciousMetals}/>
         <RegisterUserModal
                 handleNewUserChange={this.props.handleNewUserChange}
                 open={this.props.showNewUserModal}

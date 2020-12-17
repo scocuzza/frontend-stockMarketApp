@@ -30,11 +30,15 @@ class WatchlistView extends Component {
         let stocks = ''
         if(data === 'loaded') {
             let ticker = this.props.currentWatchlistStock
+            // let last = this.props.watchlistStockData2[ticker].lastPrice
+            // let open = this.props.watchlistStockData2[ticker].openPrice
+            // let high = this.props.watchlistStockData2[ticker].highPrice
+            // let low = this.props.watchlistStockData2[ticker].lowPrice
             // console.log(this.props.watchlistStockData2[ticker].lastPrice);
             stocks = this.props.watchlistStockData.map(stock => {
                         return <>
                         
-                        <a onClick={this.props.setCurrentWatchlistStock}>{stock.name}</a> 
+                        <a style={{cursor:'pointer'}}onClick={this.props.setCurrentWatchlistStock}>{stock.name}</a> 
                         <span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {stock.netChange} {this.props.showPoints ? null : '%'}</span>
                             <Divider />
                         </>
@@ -84,7 +88,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        {/* <Table.Cell>{(this.props.watchlistStockData2[ticker].lastPrice).toFixed(0)}</Table.Cell> */}
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].lastPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                         <Table.Cell>
@@ -95,7 +99,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        {/* <Table.Cell>{(this.props.watchlistStockData2[ticker].openPrice).toFixed(0)}</Table.Cell> */}
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].openPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                         <Table.Cell>
@@ -106,7 +110,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        {/* <Table.Cell>{(this.props.watchlistStockData2[ticker].highPrice).toFixed(0)}</Table.Cell> */}
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].highPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                         <Table.Cell>
@@ -117,7 +121,7 @@ class WatchlistView extends Component {
                                             </Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        {/* <Table.Cell>{(this.props.watchlistStockData2[ticker].lowPrice).toFixed(0)}</Table.Cell> */}
+                                        <Table.Cell>{this.props.watchlistStockData2[ticker] == undefined ? null : (this.props.watchlistStockData2[ticker].lowPrice).toFixed(2)}</Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
                                     </Table>
