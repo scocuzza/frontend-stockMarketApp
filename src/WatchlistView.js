@@ -46,7 +46,7 @@ class WatchlistView extends Component {
                             <Menu.Item
                                 name={stock.name}
                                 >
-                                <a onClick={this.props.setCurrentWatchlistStock} style={{cursor:'pointer'}}>{stock.name}</a><span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {stock.netChange} {this.props.showPoints ? null : '%'}</span>
+                                <a onClick={this.props.setCurrentWatchlistStock} style={{cursor:'pointer'}}>{stock.name}</a><span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.showPoints ? stock.netChange : ((stock.netChange / stock.lastPrice) * 100).toFixed(2)} {this.props.showPoints ? null : '%'}</span>
                             </Menu.Item>
 
                         </>
