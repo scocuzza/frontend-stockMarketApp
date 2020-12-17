@@ -44,13 +44,22 @@ class SectorItem extends Component {
           index={this.props.index}
           onClick={this.handleClick}
         >
+          {this.props.name == 'Information Technology' ? <Icon name='computer'/> : null}
+          {this.props.name == 'Health Care' ? <Icon name='doctor'/> : null}
+          {this.props.name == 'Financials' ? <Icon name='money bill alternate outline'/> : null}
+          {this.props.name == 'Communication Services' ? <Icon name='volume control phone'/> : null}
+          {this.props.name == 'Industrials' ? <Icon name='factory'/> : null}
+          {this.props.name == 'Energy' ? <Icon name='lightning'/> : null}
+          {this.props.name == 'Utilities' ? <Icon name='tint'/> : null}
+          {this.props.name == 'Real Estate' ? <Icon name='home'/> : null}
+          {this.props.name == 'Materials' ? <Icon name='cubes'/> : null}
+          {this.props.name == 'Precious Metals' ? <Icon name='trophy'/> : null}
           <Icon name='dropdown' />
             {this.props.name} <span style={ this.props.change >= 0 ? {color:'green'} : {color:'red'}}>  {this.props.change >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.change} {this.props.showPoints ? null : '%'}</span>
         </Accordion.Title>
         
         <Accordion.Content active={activeIndex === this.props.index}>
           <p>
-            {/* {description} */}
             <Table basic='very' celled collapsing size='small'>
                     <Table.Header>
                     <Table.Row>
