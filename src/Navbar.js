@@ -16,7 +16,7 @@ class Navbar extends Component {
       return (
         <Menu stackable>
           <Menu.Item>
-            <Icon size='big' name='money bill alternate outline' />
+            <h2>Simple Stocks</h2>
           </Menu.Item>
 
           <a>
@@ -24,7 +24,7 @@ class Navbar extends Component {
             name='home'
             active={activeItem === 'home'}
             onClick={this.handleItemClick}>
-              <Link to='/'><Icon size='big' name='home' /></Link>
+              <Link className="home-link" to='/' style={{ textDecoration: 'none' }}><Icon size='big' name='home'/></Link>
           </Menu.Item>
           </a>
           
