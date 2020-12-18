@@ -46,7 +46,7 @@ class WatchlistView extends Component {
                             <Menu.Item
                                 name={stock.name}
                                 >
-                                <a onClick={this.props.setCurrentWatchlistStock} style={{cursor:'pointer'}}>{stock.name}</a><span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.showPoints ? stock.netChange : ((stock.netChange / stock.openPrice) * 100).toFixed(2)} {this.props.showPoints ? null : '%'}</span>
+                                <a onClick={this.props.setCurrentWatchlistStock} style={{cursor:'pointer'}}>{stock.name}</a><span style={ stock.netChange >= 0 ? {color:'green'} : {color:'red'}}>  {stock.lastPrice} {stock.netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/> } {this.props.showPoints ? stock.netChange : ((stock.netChange / stock.openPrice) * 100).toFixed(2)} {this.props.showPoints ? null : '%'}</span>
                             </Menu.Item>
 
                         </>
@@ -77,7 +77,7 @@ class WatchlistView extends Component {
                                 <Grid columns={3} divided>
                                 <Grid.Column width={3}>
                                     {/* <Segment style={{overflow: 'auto', height: '100%', maxHeight: '100%', width: 160 }}>{stocks}</Segment> */}
-                                    <Menu vertical style={{overflow: 'auto', maxHeight: '525px'}}>
+                                    <Menu vertical style={{overflow: 'auto', maxHeight: '525px', width: '250px'}}>
                                         {stocks}
                                     </Menu>
 

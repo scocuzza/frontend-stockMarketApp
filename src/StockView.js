@@ -181,7 +181,7 @@ class StockView extends Component {
                     onClick={this.handleClick}
                     >
                     <Icon name='dropdown' />
-                    {currentStock} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
+                    {currentStock} {lastPrice} <span style={ netChange >= 0 ? {color:'green'} : {color:'red'}} > {netChange >= 0 ? <Icon name='caret up'/> : <Icon name='caret down'/>}{netChange} {!this.props.showPoints ? '%' : null}</span>
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === 0}>
                     <Table basic='very' celled collapsing>
