@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Navbar from './Navbar'
-import { Accordion, Button, Icon, Table } from 'semantic-ui-react'
+import { Accordion, Button, Icon, Segment, Table, Grid, Header, Loader } from 'semantic-ui-react'
 import StockPriceChart2 from './StockPriceChart2'
 import AddToWatchlistModal from './AddToWatchlistModal'
 import axios from 'axios'
@@ -84,6 +84,7 @@ class StockView extends Component {
             let totalVolume = this.props.currentStockData.totalVolume
             let weekHigh = this.props.currentStockData['52WkHigh']
             let weekLow = this.props.currentStockData['52WkLow']
+            let lowPrice = this.props.currentStockData.lowPrice
             let isLoggedIn = Object.keys(this.props.currentUser).length !== 0
             return(
                 <>
@@ -106,17 +107,73 @@ class StockView extends Component {
                     getCurrentStockData={this.props.getCurrentStockData}
                     getCurrentStockHistory={this.props.getCurrentStockHistory}
                     createWatchlistOptions={this.props.createWatchlistOptions}/>
-                <h1 style={{textAlign: 'center'}}>{currentStock} {isLoggedIn ? 
-                <Button animated='fade' onClick={this.props.openAddStockToWatchlistModal}> 
-                     <Button.Content hidden>
-                        Click to Add
-                    </Button.Content>
-                    <Button.Content visible>
-                        Add to Watchlist
-                    </Button.Content>
-                </Button> 
-                : null}</h1> 
-                <StockPriceChart2 width='50%' currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
+                <Segment>
+                    <Grid columns={2} divided>
+                    <Grid.Column width={2}>
+                        <Table>                     
+                            <Table.Body>
+                                <Table.Row>
+                                <Table.Cell>
+                                    <Header as='h4' image>
+                                    <Header.Content>
+                                        Current
+                                        <Header.Subheader><Icon name="check square outline"/></Header.Subheader>
+                                    </Header.Content>
+                                    </Header>
+                                </Table.Cell>
+                                <Table.Cell>{lastPrice == undefined ?  <Loader active inline /> : (lastPrice).toFixed(2)}</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                <Table.Cell>
+                                    <Header as='h4' image>
+                                    <Header.Content>
+                                        Open
+                                        <Header.Subheader><Icon name="check square outline"/></Header.Subheader>
+                                    </Header.Content>
+                                    </Header>
+                                </Table.Cell>
+                                <Table.Cell>{openPrice == undefined ?  <Loader active inline /> : (openPrice).toFixed(2)}</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                <Table.Cell>
+                                    <Header as='h4' image>
+                                    <Header.Content>
+                                        High
+                                        <Header.Subheader><Icon name="sort amount up"/></Header.Subheader>
+                                    </Header.Content>
+                                    </Header>
+                                </Table.Cell>
+                                <Table.Cell>{highPrice == undefined ?  <Loader active inline /> : (highPrice).toFixed(2)}</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                <Table.Cell>
+                                    <Header as='h4' image>
+                                    <Header.Content>
+                                        Low
+                                        <Header.Subheader><Icon name="sort amount down"/></Header.Subheader>
+                                    </Header.Content>
+                                    </Header>
+                                </Table.Cell>
+                                <Table.Cell>{lowPrice== undefined ?  <Loader active inline /> : (lowPrice).toFixed(2)}</Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                            </Table>
+                        </Grid.Column>
+                        <Grid.Column width={10}>
+                        <h1 style={{textAlign: 'center'}}>{description} {isLoggedIn ? 
+                            <Button animated='fade' onClick={this.props.openAddStockToWatchlistModal}> 
+                                <Button.Content hidden>
+                                    Click to Add
+                                </Button.Content>
+                                <Button.Content visible>
+                                    Add to Watchlist
+                                </Button.Content>
+                            </Button> 
+                            : null}</h1> 
+                        <StockPriceChart2 width='60%' currentStockColor={this.props.currentStockColor} currentStock={this.props.currentStock} time={this.props.currentStockHistoryTime} price={this.props.currentStockHistoryPrice}/>
+                        </Grid.Column>
+                </Grid>
+                </Segment>
                 <Accordion styled fluid>
                     <Accordion.Title
                     active={activeIndex === 0}

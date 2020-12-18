@@ -27,28 +27,30 @@ class StockPriceChart2 extends Component {
         }
         componentDidMount = () => {
             this.updateChart = setInterval(()=> {
-                this.setState({
-                    options: {
-                        chart: {
-                        id: "basic-bar",
-                        type: 'area'
+                if (this.props.currentStockColor != undefined) {
+                    this.setState({
+                        options: {
+                            chart: {
+                            id: "basic-bar",
+                            type: 'area'
+                            },
+                            colors: [this.props.currentStockColor],
+                            dataLabels: {
+                                enabled: false
+                            },
+                            xaxis: {
+                            type: 'datetime',
+                            categories: this.props.time
+                            }
                         },
-                        colors: ['#5BE429'],
-                        dataLabels: {
-                            enabled: false
-                        },
-                        xaxis: {
-                        type: 'datetime',
-                        categories: this.props.time
-                        }
-                    },
-                    series: [
-                        {
-                        name: "Index Price",
-                        data: this.props.price
-                        }
-                    ]
-                });
+                        series: [
+                            {
+                            name: "Index Price",
+                            data: this.props.price
+                            }
+                        ]
+                    });
+                }
             }, 2000)
            
         }

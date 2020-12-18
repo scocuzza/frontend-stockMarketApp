@@ -84,7 +84,7 @@ class WatchlistView extends Component {
                                 </Grid.Column>
                                 <Grid.Column width={10}>
                                     <h1 style={{textAlign: 'center'}}>{this.props.watchlistStockData2[ticker] == undefined ?  <Loader active inline /> : (this.props.watchlistStockData2[ticker].description)}</h1>
-                                    <StockPriceChart2 width='60%' price={this.props.watchlistStockHistoryPrice} time={this.props.watchlistStockHistoryTime}/>       
+                                    <StockPriceChart2 width='60%' currentStockColor={this.props.currentStockColor} price={this.props.watchlistStockHistoryPrice} time={this.props.watchlistStockHistoryTime}/>       
                                 </Grid.Column>
                                 <Grid.Column width={2}>
                                     <h3 style={{textAlign: 'center'}}>Todays Details</h3>
@@ -181,7 +181,7 @@ class WatchlistView extends Component {
                         </>
                      )
         } else  {
-            return <h1>Loading...</h1>
+            return <Loader size='huge' inline='centered'></Loader>
         }
     }
 }

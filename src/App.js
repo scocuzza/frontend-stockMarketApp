@@ -455,9 +455,17 @@ class App extends Component {
         const pricedata = response.data.candles.map(element => {
             return Math.round(element.close, 0)
         })
+        let lastElement = pricedata[timedata.length -1]
+        let firstElement = pricedata[0]
+        let color = '#5BE429'
+        if(firstElement > lastElement) {
+          console.log('negative');
+          color = '#ff3333'
+        }
         this.setState({
           currentStockHistoryTime: timedata,
-          currentStockHistoryPrice: pricedata
+          currentStockHistoryPrice: pricedata,
+          currentStockColor: color
         })
     })
     .catch( e => {console.log((e));})
@@ -520,9 +528,18 @@ class App extends Component {
         const pricedata = response.data.candles.map(element => {
             return Math.round(element.close, 0)
         })
+        let lastElement = pricedata[timedata.length -1]
+        let firstElement = pricedata[0]
+        let color = '#5BE429'
+        if(firstElement > lastElement) {
+          console.log('negative');
+          color = '#ff3333'
+        }
         this.setState({
           watchlistStockHistoryTime: timedata,
-          watchlistStockHistoryPrice: pricedata
+          watchlistStockHistoryPrice: pricedata,
+          watchlistStockColor: color
+
         })
     })
     .catch( e => {console.log((e));})
@@ -629,6 +646,7 @@ class App extends Component {
                             toggleStat={this.toggleStat}
                             getCurrentStockData={this.getCurrentStockData}
                             getCurrentStockHistory={this.getCurrentStockHistory}
+                            currentStockColor={this.state.currentStockColor}
 
                             closeModal={this.closeModal}
                             openAddStock={this.state.showAddStockToWatchlistModal}
@@ -663,7 +681,8 @@ class App extends Component {
                             currentWatchlistStock={this.state.currentWatchlistStock}
                             setCurrentWatchlistStock={this.setCurrentWatchlistStock}
                             createWatchlistOptions={this.createWatchlistOptions}
-                            watchlistStockData2={this.state.watchlistStockData2}/>
+                            watchlistStockData2={this.state.watchlistStockData2}
+                            currentStockColor={this.state.watchlistStockColor}/>
           }}/>
       </BrowserRouter>
     </div>
