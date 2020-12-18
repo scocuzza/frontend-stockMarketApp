@@ -43,6 +43,6 @@ TD Ameritrade Developer API
 14. As a User, I want to be able to create a watchlist after registering/logging in
 
 # Screenshot
-![](../planning/Project_4_Screenshot.png)
+![](./planning/Project_4_Screenshot.png)
 # WireFrame
-![](../planningProject_4_Wireframe.jpg)
+![](./planningProject_4_Wireframe.jpg)
