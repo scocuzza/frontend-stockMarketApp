@@ -483,7 +483,7 @@ class App extends Component {
         console.log(data);
         let stockObj = []
         for (const [key, value] of Object.entries(data)) {
-          if (this.state.showPoints) {
+          // if (this.state.showPoints) {
             let stockItem = {
               name: key,
               netChange: value.netChange.toFixed(2),
@@ -491,15 +491,15 @@ class App extends Component {
               openPrice: value.openPrice
             }
             stockObj.push(stockItem)
-          }else {
-            let stockItem = {
-              name: key,
-              netChange: ((value.netChange / value.openPrice) * 100).toFixed(2),
-              lastPrice: value.lastPrice,
-              openPrice: value.openPrice
-            }
-            stockObj.push(stockItem)
-          }
+          // }else {
+          //   let stockItem = {
+          //     name: key,
+          //     netChange: ((value.netChange / value.openPrice) * 100).toFixed(2),
+          //     lastPrice: value.lastPrice,
+          //     openPrice: value.openPrice
+          //   }
+            // stockObj.push(stockItem)
+          // }
           }
           this.setState({
             watchlistStockData: stockObj,
