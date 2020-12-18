@@ -45,4 +45,4 @@ TD Ameritrade Developer API
 # Screenshot
 ![](./planning/Project_4_Screenshot.png)
 # WireFrame
-![](./planningProject_4_Wireframe.jpg)
+![](./planning/Project_4_Wireframe.jpg)
