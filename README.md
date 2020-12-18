@@ -11,6 +11,8 @@ Libraries: Axios, ApexCharts, Semantic-ui-CSS, Semantic-ui-react
 Python (Flask)
 Libraries: Flask, Peewee
 Database: Postgres SQL
+
+## Models
 Tables/Relationship: User -> many watchlists -> many stocks, UserActivityLog
 
 ## Deployment CI/CD
@@ -41,6 +43,6 @@ TD Ameritrade Developer API
 14. As a User, I want to be able to create a watchlist after registering/logging in
 
 # Screenshot
-![](Project_4_Screenshot.png)
+![](../planning/Project_4_Screenshot.png)
 # WireFrame
-![](Project_4_Wireframe.jpg)
+![](../planningProject_4_Wireframe.jpg)
