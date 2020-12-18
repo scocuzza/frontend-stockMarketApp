@@ -1,0 +1,137 @@
+﻿Project 4
+Simple Stock Tracker (based on project 2)
+
+
+Tech Stack
+Backend - Python + Postgres + PeeWee ORM
+Frontend - React JS
+Deployment - Heroku
+Semantic UI React
+
+
+API 
+TD Ameritrade API 
+
+
+Components
+Route - /Home
+App
+* NavBar
+   * Register
+   * Login
+   * Search
+* Sector Container
+   * Sector Item
+* Activity Feed
+* Watchlist Container
+Route - /Details
+App
+* NavBar
+* StockChart
+* Watchlist menu list
+* Detail Menu
+* Detail Accordian
+Route - /Watchlist
+App
+* NavBar
+* StockChart
+* Watchlist menu list
+* Detail Menu
+* Detail Accordian
+
+
+Models
+User - ID (primary key) username , email, password
+Watchlist - watchlist(FK field on user), watchlistname, created_at
+Stock - user(FK field on Watchlist),watchlist(FK field on watchlist), stock
+UserActivityLog -  username, activityType, activity, created_at
+
+
+
+
+Rough Draft User Stories
+User Stories
+* As a User, I want to see live prices of indexes and stocks
+* As a User, I want to see prices of each secotr
+* As a User, I would like the homepage display major indices (DOW,NASDAQ,S&P 500)
+* As a User, I want to be able to register an account
+* As a User, I want to be able to login to my account
+* As a User, I want to be able to create a watchlist
+* As a User, I want to be able to add stocks to my watchlist
+* As a User, I want to be able to see a feed of others Users watchlists
+* As a User, I want to be able to view watchlists created by others
+* As a User, I want to be able to see the details of a selected stock
+* As a User, I want to be able to have protect routes for creating a watchlist
+* As a User, I want to be able to delete one of my watchlists
+* As a User, I want to be able to update/edit one of my watchlists
+* Nice to haves:
+* As a User, I want to be able to set a price target for a stock 
+* As a User, I want to be able to drill down into the DOW, NASDAQ,S&P 500
+
+
+
+
+
+
+Documentation
+https://canvasjs.com/react-charts/json-data-api-ajax-chart/
+http://docs.peewee-orm.com/en/latest/peewee/relationships.html
+https://apexcharts.com/docs/installation/
+
+
+
+
+
+
+User Story Checklist
+1. As a User, I want to be able to see the current most popular indexes and sectors on the home page
+2. As a User, I want to be able to see charts for the major indexes
+3. As a User, I want my data to be refreshed automatically 
+4. As a User, I want to see colors based on the gains/losses for each item
+5. As a User, I want to be able to toggle based on points or percent for gains/losses
+6. As a User, I want to be able to expand and see details of each sector
+
+
+7. As a User, I want to be able to register an account.
+8. As a User, I want to be able to login with my account and see my username
+9. As a User, I want to be able to logout from my account
+ 
+10. As a User, I want to see updates in the Activity feed of users logging in, logging out and creating a new account
+11. As a User, I want to see updates based on who created or added stocks to their wishlist
+ 
+12. As a User, I want to be able to search an individual stock and see a chart as well as details for the stock
+13. As a User, I want to be able to search additional stock from the same page and have it update
+ 
+14. As a User, I want to be able to create a watchlist after registering/logging in
+15. As a User, I want to be able to search for an individual stock and add it to one of my created watchlists
+16. As a User, I want to be able to view the price changes for the stocks in my watchlist
+17. As a user, i want to be able to select a stock in my watchlist view and see the new chart
+
+
+
+
+
+
+
+
+Things I learned
+Semantic UI is great - wasted 0 time on CSS and looks 20 times better than if i actually did spend time on it.
+
+
+Conditional rendering - was a big breakthrough when i figured out how to wait for my props to populate from API calls before rendering them. Much more visually appealing to render loading icons to let the user know what is happening
+
+
+Future Improvements:
+Form validation & confirmation
+
+
+Improve the activity feed to select and view other’s watchlist
+
+
+Delete / edit watchlists 
+
+
+Date selection for charts
+
+
+Dryer code
