@@ -35,7 +35,7 @@ class StockPriceChart extends Component {
                 url: `https://api.tdameritrade.com/v1/marketdata/${ticker.toUpperCase()}/pricehistory`,
                 params: {
                     apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
-                    periodType: 'ytd',
+                    periodType: 'year',
                     period: '1',
                     frequencyType: 'daily',
                     frequency: '1'

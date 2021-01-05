@@ -443,7 +443,7 @@ class App extends Component {
         url: `https://api.tdameritrade.com/v1/marketdata/${this.state.currentStock.toUpperCase()}/pricehistory`,
         params: {
             apikey: process.env.REACT_APP_API_KEY_TD,
-            periodType: 'ytd',
+            periodType: 'year',
             period: '1',
             frequencyType: 'daily',
             frequency: '1'
@@ -516,7 +516,7 @@ class App extends Component {
         url: `https://api.tdameritrade.com/v1/marketdata/${this.state.currentWatchlistStock.toUpperCase()}/pricehistory`,
         params: {
             apikey: process.env.REACT_APP_API_KEY_TD,
-            periodType: 'ytd',
+            periodType: 'year',
             period: '1',
             frequencyType: 'daily',
             frequency: '1'
